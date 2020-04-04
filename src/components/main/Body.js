@@ -10,8 +10,13 @@ export default class Body extends Component {
     this.state = {
       money: Math.random() * 5000,
       expenses: 0,
+      salary: 0,
       income: 0,
-      assets: []
+      assets: [
+        {
+          salary: 0
+        }
+      ]
     };
     this.purchaseMe = this.purchaseMe.bind(this);
     this.updateMoney = this.updateMoney.bind(this);
@@ -31,22 +36,25 @@ export default class Body extends Component {
 
   salaryPayment() {
     this.setState(prevState => ({
-      money: prevState.money - this.state.assets.length * 800
+      money: prevState.money - this.state.salary
     }));
   }
 
-  purchaseMe(cost) {
-    let totalVal = 300;
-    console.log(cost);
-    if (this.state.money >= cost) {
+  purchaseMe(employeeSalary) {
+    console.log(employeeSalary);
+    const totalVal = 120 * this.state.assets.length;
+    const salaryArray = {
+      salary: employeeSalary
+    };
+    if (this.state.money >= 0) {
       this.setState(prevState => ({
-        money: prevState.money - cost
+        money: prevState.money - employeeSalary
       }));
-      let newarray: {
-        title: "company"
-      };
       this.setState(prevState => ({
-        assets: [...prevState.assets, newarray]
+        assets: [...prevState.assets, salaryArray]
+      }));
+      this.setState(prevState => ({
+        salary: prevState.salary + employeeSalary
       }));
       this.setState({ income: (this.state.assets.length + 1) * totalVal });
     } else {
