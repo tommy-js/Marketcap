@@ -2,7 +2,7 @@ import React from "react";
 import "../../../main.css";
 
 function Income(props) {
-  return <div>{props.money}</div>;
+  return <div>Income per second: ${props.income}</div>;
 }
 
 export default Income;
