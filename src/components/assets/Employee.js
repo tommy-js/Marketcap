@@ -5,12 +5,16 @@ export default class Employee extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "block"
+      display: "block",
+      status: {
+        id: this.props.id,
+        salary: this.props.salary
+      }
     };
   }
 
   fireEmployee() {
-    this.setState({ display: "none" });
+    this.props.fireEmployee(this.state.status);
   }
 
   render() {

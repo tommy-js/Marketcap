@@ -5,7 +5,11 @@ function CompanyList(props) {
   return (
     <div>
       {props.assets.map(el => (
-        <Employee salary={el.salary} />
+        <Employee
+          id={el.id}
+          salary={el.salary}
+          fireEmployee={props.fireEmployee}
+        />
       ))}
     </div>
   );

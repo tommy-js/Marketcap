@@ -18,11 +18,7 @@ export default class Body extends Component {
       monthlyPaybackValue: 0,
       credit: 5000,
       termComplete: false,
-      assets: [
-        {
-          salary: 0
-        }
-      ]
+      assets: []
     };
     this.purchaseMe = this.purchaseMe.bind(this);
     this.updateMoney = this.updateMoney.bind(this);
@@ -31,6 +27,7 @@ export default class Body extends Component {
     this.loanPay = this.loanPay.bind(this);
     this.submitPaybackAmount = this.submitPaybackAmount.bind(this);
     this.updateCredit = this.updateCredit.bind(this);
+    this.fireEmployee = this.fireEmployee.bind(this);
   }
 
   componentDidMount() {
@@ -66,9 +63,10 @@ export default class Body extends Component {
   }
 
   purchaseMe(employeeSalary) {
-    const totalVal = 0.1 * employeeSalary * this.state.assets.length;
+    const totalVal = 0.1 * employeeSalary * (this.state.assets.length + 1);
     const salaryArray = {
-      salary: employeeSalary
+      salary: employeeSalary,
+      id: Math.random() * 100000
     };
     if (this.state.money >= 0) {
       this.setState(prevState => ({
@@ -80,7 +78,8 @@ export default class Body extends Component {
       this.setState(prevState => ({
         salary: prevState.salary + employeeSalary
       }));
-      this.setState({ income: (this.state.assets.length + 1) * totalVal });
+      this.setState(prevState => ({ income: prevState.income + totalVal }));
+      console.log(this.state.assets);
     } else {
       console.log("too expensive!");
     }
@@ -109,6 +108,17 @@ export default class Body extends Component {
     this.setState(prevState => ({ credit: prevState.credit + creditPayoff }));
   }
 
+  fireEmployee(status) {
+    let prelimArray = [this.state.assets];
+    const totalVal = 0.1 * status.salary * this.state.assets.length;
+    this.setState(prevState => ({
+      income: prevState.income - totalVal
+    }));
+    prelimArray.splice(prelimArray.find(el => el.id !== status.id), 1);
+    console.log(prelimArray);
+    this.setState({ assets: prelimArray });
+  }
+
   render() {
     return (
       <div>
@@ -121,6 +131,7 @@ export default class Body extends Component {
           submitPaybackAmount={this.submitPaybackAmount}
           termComplete={this.state.termComplete}
           updateCredit={this.updateCredit}
+          fireEmployee={this.fireEmployee}
         />
         <Money money={this.state.money} />
         <Expenses expenses={this.state.expenses} />
