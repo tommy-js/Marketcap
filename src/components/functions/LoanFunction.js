@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function LoanFunction(props) {
   const [loanCounter, setLoanCounter] = useState(0);
@@ -7,13 +7,20 @@ function LoanFunction(props) {
   const [loanCheck, setLoanCheck] = useState(0);
   const [identifier, setIdentifier] = useState("");
   const [checkChanger, setCheckChanger] = useState(true);
+  const [creditCheck, setCreditCheck] = useState(props.credit);
 
   function updateInput(e) {
     setLoanCounter(e.target.value);
   }
   function submitInput() {
-    setLoanMonthly(0.05 * loanCounter);
-    props.loanTakeout(loanCounter);
+    if (loanCounter <= creditCheck) {
+      props.loanTakeout(loanCounter);
+      setLoanMonthly(0.05 * loanCounter);
+    } else {
+      props.loanTakeout(creditCheck);
+      setLoanMonthly(0.05 * creditCheck);
+      setLoanCounter(creditCheck);
+    }
     setDisabledController(true);
   }
 
@@ -22,14 +29,12 @@ function LoanFunction(props) {
   }
 
   function submitPaybackAmount() {
-    let loancheck = Number(loanCheck);
-    let loancounter = Number(loanCounter);
-    if (loancheck >= loancounter) {
-      setLoanMonthly(loancounter);
-      props.submitPaybackAmount(loancounter);
+    if (loanCheck <= loanCounter) {
+      props.submitPaybackAmount(loanCheck);
+      setLoanMonthly(loanCheck);
     } else {
-      setLoanMonthly(loancheck);
-      props.submitPaybackAmount(loancheck);
+      props.submitPaybackAmount(loanCounter);
+      setLoanMonthly(loanCounter);
     }
     setCheckChanger(true);
   }
@@ -47,6 +52,10 @@ function LoanFunction(props) {
       setIdentifier("");
     }
     setCheckChanger(false);
+  }
+
+  if (props.termComplete == true) {
+    setDisabledController(false);
   }
 
   return (

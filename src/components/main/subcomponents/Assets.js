@@ -24,6 +24,9 @@ function Assets(props) {
       <LoanFunction
         loanTakeout={props.loanTakeout}
         submitPaybackAmount={props.submitPaybackAmount}
+        credit={props.credit}
+        totalLoans={props.loans}
+        termComplete={props.termComplete}
       />
       <p>
         Your loans are: ${props.loans.toLocaleString()}

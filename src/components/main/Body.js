@@ -3,6 +3,7 @@ import Assets from "./subcomponents/Assets";
 import Income from "./subcomponents/Income";
 import Expenses from "./subcomponents/Expenses";
 import Money from "./subcomponents/Money";
+import Credit from "./subcomponents/Credit";
 
 export default class Body extends Component {
   constructor(props) {
@@ -15,6 +16,8 @@ export default class Body extends Component {
       loans: 0,
       loanPayment: 0,
       monthlyPaybackValue: 0,
+      credit: 5000,
+      termComplete: false,
       assets: [
         {
           salary: 0
@@ -49,6 +52,7 @@ export default class Body extends Component {
 
   loanPay() {
     if (this.state.loans >= 0) {
+      this.setState({ termComplete: false });
       let testingVal = this.state.loans - this.state.monthlyPaybackValue;
       if (testingVal >= 0) {
         this.setState(prevState => ({
@@ -60,6 +64,8 @@ export default class Body extends Component {
           loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
         }));
       }
+    } else {
+      this.setState({ termComplete: true });
     }
   }
 
@@ -109,11 +115,14 @@ export default class Body extends Component {
           purchaseMe={this.purchaseMe}
           loanTakeout={this.loanTakeout}
           loans={this.state.loans}
+          credit={this.state.credit}
           submitPaybackAmount={this.submitPaybackAmount}
+          termComplete={this.state.termComplete}
         />
         <Money money={this.state.money} />
         <Expenses expenses={this.state.expenses} />
         <Income income={this.state.income} />
+        <Credit credit={this.state.credit} />
       </div>
     );
   }
