@@ -7,6 +7,7 @@ function CompanyList(props) {
       {props.assets.map(el => (
         <Employee
           id={el.id}
+          name={el.name}
           salary={el.salary}
           value={el.value}
           fireEmployee={props.fireEmployee}

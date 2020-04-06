@@ -21,6 +21,7 @@ export default class Employee extends Component {
   render() {
     return (
       <div className="company_body" style={{ display: this.state.display }}>
+        <div>Name: {this.props.name}</div>
         <div>Weekly salary: ${this.props.salary}</div>
         <div>Weekly value: ${this.props.value * 7}</div>
         <button onClick={() => this.fireEmployee()}>Fire me</button>

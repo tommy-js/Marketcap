@@ -35,7 +35,7 @@ export default class Body extends Component {
   componentDidMount() {
     setInterval(this.updateMoney, 1000);
     setInterval(this.salaryPayment, 7000);
-    setInterval(this.loanPay, 6000);
+    setInterval(this.loanPay, 7000);
   }
 
   updateMoney() {
@@ -65,8 +65,8 @@ export default class Body extends Component {
   }
 
   purchaseMe(individual) {
-    const totalVal = 0.1 * individual.salary * (this.state.assets.length + 1);
     const salaryArray = {
+      name: individual.name,
       salary: individual.salary,
       id: Math.random() * 100000,
       value: individual.value
@@ -81,7 +81,9 @@ export default class Body extends Component {
       this.setState(prevState => ({
         salary: prevState.salary + individual.salary
       }));
-      this.setState(prevState => ({ income: prevState.income + totalVal }));
+      this.setState(prevState => ({
+        income: prevState.income + individual.value
+      }));
       console.log(this.state.assets);
     } else {
       console.log("too expensive!");
@@ -91,7 +93,6 @@ export default class Body extends Component {
   loanTakeout(e) {
     const loans = Number(e);
     const totalLoans = e * 0.05;
-    console.log(typeof loans);
     this.setState(prevState => ({
       money: prevState.money + loans
     }));
@@ -120,9 +121,13 @@ export default class Body extends Component {
         ? this.setState({ income: 0 })
         : this.setState(prevState => ({ income: prevState.income - totalVal }));
     }
-    this.setState(prevState => ({
-      salary: prevState.salary - status.salary
-    }));
+    {
+      prelimArray.length == 0
+        ? this.setState({ salary: 0 })
+        : this.setState(prevState => ({
+            salary: prevState.salary - status.salary
+          }));
+    }
     console.log(prelimArray);
     this.setState({ assets: prelimArray });
   }
@@ -143,7 +148,11 @@ export default class Body extends Component {
         />
         <Money money={this.state.money} />
         <Expenses expenses={this.state.expenses} />
-        <Income income={this.state.income} />
+        <Income
+          income={this.state.income}
+          loanPayment={this.state.loanPayment}
+          salary={this.state.salary}
+        />
         <Credit credit={this.state.credit} />
         <Hireables employees={employees} purchaseMe={this.purchaseMe} />
       </div>
