@@ -5,6 +5,8 @@ function LoanFunction(props) {
   const [disabledController, setDisabledController] = useState(false);
   const [loanMonthly, setLoanMonthly] = useState(0);
   const [loanCheck, setLoanCheck] = useState(0);
+  const [identifier, setIdentifier] = useState("");
+  const [checkChanger, setCheckChanger] = useState(true);
 
   function updateInput(e) {
     setLoanCounter(e.target.value);
@@ -20,13 +22,31 @@ function LoanFunction(props) {
   }
 
   function submitPaybackAmount() {
-    if (loanCheck >= loanCounter) {
-      setLoanMonthly(loanCounter);
-      props.submitPaybackAmount(loanCounter);
+    let loancheck = Number(loanCheck);
+    let loancounter = Number(loanCounter);
+    if (loancheck >= loancounter) {
+      setLoanMonthly(loancounter);
+      props.submitPaybackAmount(loancounter);
     } else {
-      setLoanMonthly(loanCheck);
-      props.submitPaybackAmount(loanCheck);
+      setLoanMonthly(loancheck);
+      props.submitPaybackAmount(loancheck);
     }
+    setCheckChanger(true);
+  }
+
+  if (checkChanger === true) {
+    if (loanMonthly > 1000000) {
+      if (loanMonthly > 1000000000) {
+        setLoanMonthly(loanMonthly / 1000000000);
+        setIdentifier("B");
+      } else {
+        setLoanMonthly(loanMonthly / 1000000);
+        setIdentifier("M");
+      }
+    } else if (loanMonthly < 10000000) {
+      setIdentifier("");
+    }
+    setCheckChanger(false);
   }
 
   return (
@@ -40,7 +60,11 @@ function LoanFunction(props) {
       <button disabled={disabledController} onClick={submitInput}>
         Submit
       </button>
-      <p>Your loan rate is 5%. Your monthly payment is {loanMonthly}</p>
+      <p>
+        Your loan rate is 5%. Your monthly payment is $
+        {loanMonthly.toLocaleString()}
+        {identifier}
+      </p>
       <input
         type="text"
         onChange={e => changePaybackAmount(e)}

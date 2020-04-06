@@ -9,7 +9,7 @@ export default class Employee extends Component {
 
   render() {
     return (
-      <div className="company_body">Weekly salary: {this.props.salary}</div>
+      <div className="company_body">Weekly salary: ${this.props.salary}</div>
     );
   }
 }
