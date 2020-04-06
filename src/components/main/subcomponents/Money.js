@@ -14,13 +14,26 @@ function Money(props) {
       identifier = "M";
     }
   }
+
+  function restart() {
+    window.location.reload();
+  }
   let mon = money.toLocaleString();
-  return (
-    <div>
-      Your total money: ${mon}
-      {identifier}
-    </div>
-  );
+  if (money > 0) {
+    return (
+      <div>
+        Your total money: ${mon}
+        {identifier}
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <p>You are bankrupt!</p>
+        <button onClick={restart}>Start Over</button>
+      </div>
+    );
+  }
 }
 
 export default Money;
