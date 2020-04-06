@@ -4,6 +4,8 @@ import Income from "./subcomponents/Income";
 import Expenses from "./subcomponents/Expenses";
 import Money from "./subcomponents/Money";
 import Credit from "./subcomponents/Credit";
+import Hireables from "./subcomponents/Hireables";
+import employees from "./subcomponents/employees";
 
 export default class Body extends Component {
   constructor(props) {
@@ -62,21 +64,22 @@ export default class Body extends Component {
     }
   }
 
-  purchaseMe(employeeSalary) {
-    const totalVal = 0.1 * employeeSalary * (this.state.assets.length + 1);
+  purchaseMe(individual) {
+    const totalVal = 0.1 * individual.salary * (this.state.assets.length + 1);
     const salaryArray = {
-      salary: employeeSalary,
-      id: Math.random() * 100000
+      salary: individual.salary,
+      id: Math.random() * 100000,
+      value: individual.value
     };
     if (this.state.money >= 0) {
       this.setState(prevState => ({
-        money: prevState.money - employeeSalary
+        money: prevState.money - individual.salary
       }));
       this.setState(prevState => ({
         assets: [...prevState.assets, salaryArray]
       }));
       this.setState(prevState => ({
-        salary: prevState.salary + employeeSalary
+        salary: prevState.salary + individual.salary
       }));
       this.setState(prevState => ({ income: prevState.income + totalVal }));
       console.log(this.state.assets);
@@ -109,12 +112,17 @@ export default class Body extends Component {
   }
 
   fireEmployee(status) {
-    let prelimArray = [this.state.assets];
-    const totalVal = 0.1 * status.salary * this.state.assets.length;
+    let prelimArray = [...this.state.assets];
+    const totalVal = status.value;
+    prelimArray.splice(prelimArray.find(el => el.id == status.id), 1);
+    {
+      prelimArray.length == 0
+        ? this.setState({ income: 0 })
+        : this.setState(prevState => ({ income: prevState.income - totalVal }));
+    }
     this.setState(prevState => ({
-      income: prevState.income - totalVal
+      salary: prevState.salary - status.salary
     }));
-    prelimArray.splice(prelimArray.find(el => el.id !== status.id), 1);
     console.log(prelimArray);
     this.setState({ assets: prelimArray });
   }
@@ -137,6 +145,7 @@ export default class Body extends Component {
         <Expenses expenses={this.state.expenses} />
         <Income income={this.state.income} />
         <Credit credit={this.state.credit} />
+        <Hireables employees={employees} purchaseMe={this.purchaseMe} />
       </div>
     );
   }

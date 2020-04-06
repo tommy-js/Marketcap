@@ -8,7 +8,9 @@ function PurchaseFunction(props) {
   let salary = individual.salary;
   return (
     <div className="purchase_button">
-      <button onClick={() => props.purchaseMe(salary)}>Hire employee</button>
+      <button onClick={() => props.purchaseMe(individual)}>
+        Hire employee
+      </button>
     </div>
   );
 }

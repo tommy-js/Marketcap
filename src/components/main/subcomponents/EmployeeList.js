@@ -8,6 +8,7 @@ function CompanyList(props) {
         <Employee
           id={el.id}
           salary={el.salary}
+          value={el.value}
           fireEmployee={props.fireEmployee}
         />
       ))}

@@ -8,7 +8,8 @@ export default class Employee extends Component {
       display: "block",
       status: {
         id: this.props.id,
-        salary: this.props.salary
+        salary: this.props.salary,
+        value: this.props.value
       }
     };
   }
@@ -21,6 +22,7 @@ export default class Employee extends Component {
     return (
       <div className="company_body" style={{ display: this.state.display }}>
         <div>Weekly salary: ${this.props.salary}</div>
+        <div>Weekly value: ${this.props.value * 7}</div>
         <button onClick={() => this.fireEmployee()}>Fire me</button>
       </div>
     );

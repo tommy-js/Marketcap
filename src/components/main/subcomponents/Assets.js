@@ -35,7 +35,6 @@ function Assets(props) {
   return (
     <div>
       <EmployeeList assets={props.assets} fireEmployee={props.fireEmployee} />
-      <PurchaseFunction purchaseMe={props.purchaseMe} />
 
       {currentLoans.map(el => (
         <LoanFunction
