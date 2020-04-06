@@ -8,6 +8,7 @@ function LoanFunction(props) {
   const [identifier, setIdentifier] = useState("");
   const [checkChanger, setCheckChanger] = useState(true);
   const [creditCheck, setCreditCheck] = useState(props.credit);
+  const [newDisplay, setDisplay] = useState("block");
 
   function updateInput(e) {
     setLoanCounter(e.target.value);
@@ -26,6 +27,7 @@ function LoanFunction(props) {
 
   function changePaybackAmount(e) {
     setLoanCheck(e.target.value);
+    console.log(props.totalLoans);
   }
 
   function submitPaybackAmount() {
@@ -37,6 +39,24 @@ function LoanFunction(props) {
       setLoanMonthly(loanCounter);
     }
     setCheckChanger(true);
+  }
+
+  let x;
+  if (props.totalLoans == 0) {
+    x = true;
+  } else {
+    x = false;
+  }
+
+  function closeLoan(x) {
+    if (props.totalLoans == 0) {
+      setDisplay("none");
+      let passCredit = creditCheck * 0.1;
+      props.updateCredit(passCredit);
+      console.log(passCredit);
+    } else {
+      setDisplay("block");
+    }
   }
 
   if (checkChanger === true) {
@@ -59,7 +79,7 @@ function LoanFunction(props) {
   }
 
   return (
-    <div>
+    <div style={{ display: newDisplay }}>
       <p>Take out loan</p>
       <input
         type="text"
@@ -86,6 +106,7 @@ function LoanFunction(props) {
       >
         Set loan payback amount
       </button>
+      <button onClick={x => closeLoan(x)}>Close Loan</button>
     </div>
   );
 }

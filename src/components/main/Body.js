@@ -30,12 +30,13 @@ export default class Body extends Component {
     this.loanTakeout = this.loanTakeout.bind(this);
     this.loanPay = this.loanPay.bind(this);
     this.submitPaybackAmount = this.submitPaybackAmount.bind(this);
+    this.updateCredit = this.updateCredit.bind(this);
   }
 
   componentDidMount() {
     setInterval(this.updateMoney, 1000);
     setInterval(this.salaryPayment, 7000);
-    setInterval(this.loanPay, 30000);
+    setInterval(this.loanPay, 6000);
   }
 
   updateMoney() {
@@ -51,21 +52,16 @@ export default class Body extends Component {
   }
 
   loanPay() {
-    if (this.state.loans >= 0) {
-      this.setState({ termComplete: false });
-      let testingVal = this.state.loans - this.state.monthlyPaybackValue;
-      if (testingVal >= 0) {
-        this.setState(prevState => ({
-          money:
-            prevState.money -
-            this.state.loanPayment -
-            this.state.monthlyPaybackValue,
-          loans: prevState.loans - this.state.monthlyPaybackValue,
-          loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
-        }));
-      }
-    } else {
-      this.setState({ termComplete: true });
+    let testingVal = this.state.loans - this.state.monthlyPaybackValue;
+    if (testingVal >= 0) {
+      this.setState(prevState => ({
+        money:
+          prevState.money -
+          this.state.loanPayment -
+          this.state.monthlyPaybackValue,
+        loans: prevState.loans - this.state.monthlyPaybackValue,
+        loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
+      }));
     }
   }
 
@@ -97,14 +93,20 @@ export default class Body extends Component {
     this.setState(prevState => ({
       money: prevState.money + loans
     }));
-    this.setState({ loans: loans });
-    this.setState({ loanPayment: totalLoans });
+    this.setState(prevState => ({ loans: prevState.loans + loans }));
+    this.setState(prevState => ({
+      loanPayment: prevState.loanPayment + totalLoans
+    }));
     // console.log(this.state.loanPayment);
   }
 
   submitPaybackAmount(loanPaybackAmount) {
     const monthlyValue = loanPaybackAmount;
     this.setState({ monthlyPaybackValue: monthlyValue });
+  }
+
+  updateCredit(creditPayoff) {
+    this.setState(prevState => ({ credit: prevState.credit + creditPayoff }));
   }
 
   render() {
@@ -118,6 +120,7 @@ export default class Body extends Component {
           credit={this.state.credit}
           submitPaybackAmount={this.submitPaybackAmount}
           termComplete={this.state.termComplete}
+          updateCredit={this.updateCredit}
         />
         <Money money={this.state.money} />
         <Expenses expenses={this.state.expenses} />
