@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 function ComputerChip(props) {
   const [sellVal, setSellVal] = useState(0);
-  let price = 2;
 
   function startCPUChip() {
     props.setCPUChips(true);
@@ -25,13 +24,14 @@ function ComputerChip(props) {
   return (
     <div>
       <div>Build Computer Chips</div>
-      <div>Current Price: {price}</div>
+      <div>Current Price: {props.chipPrice}</div>
       <div>You own {props.chips} chips</div>
       <button onClick={startCPUChip}>Build</button>
       <button onClick={endCPUChip}>Stop Building</button>
       <input
         type="number"
         placeholder="amount to sell"
+        min="0"
         onChange={setSellAmount}
       />
       <button onClick={sellAmount}>Sell</button>

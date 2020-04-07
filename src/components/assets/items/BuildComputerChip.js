@@ -15,7 +15,7 @@ export default class BuildComputerChip extends Component {
   setCPUChips(checkCPU) {
     if (checkCPU == true) {
       this.setState({ buildChips: true });
-      let newvar = setInterval(this.CPUChips, 60);
+      let newvar = setInterval(this.CPUChips, 2000);
       this.setState({ newvar: newvar });
     }
     if (checkCPU == false) {
@@ -49,6 +49,7 @@ export default class BuildComputerChip extends Component {
           setCPUChips={this.setCPUChips}
           stopCPUChips={this.stopCPUChips}
           sellCPUChip={this.sellCPUChip}
+          chipPrice={this.props.chipPrice}
         />
       </div>
     );
