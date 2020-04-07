@@ -19,10 +19,11 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: 100,
+      money: Math.random() * 5000,
       expenses: 0,
       salary: 0,
       income: 0,
+      productivity: 1,
       loans: 0,
       loanPayment: 0,
       monthlyPaybackValue: 0,
@@ -104,7 +105,7 @@ export default class Body extends Component {
           salary: prevState.salary + individual.salary
         }));
         this.setState(prevState => ({
-          income: prevState.income + individual.value
+          productivity: prevState.productivity + individual.value
         }));
         this.setState(prevState => ({
           employeesHired: prevState.employeesHired + 1
@@ -225,7 +226,10 @@ export default class Body extends Component {
         />
         <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
         <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
-        <Goods addMoney={this.addMoney} />
+        <Goods
+          addMoney={this.addMoney}
+          productivity={this.state.productivity}
+        />
         <Notification money={this.state.money} />
       </div>
     );

@@ -10,11 +10,16 @@ export default class BuildMobilePhone extends Component {
     this.MobilePhone = this.MobilePhone.bind(this);
     this.setMobilePhone = this.setMobilePhone.bind(this);
     this.sellMobilePhone = this.sellMobilePhone.bind(this);
+    this.autoSell = this.autoSell.bind(this);
+    this.sellAll = this.sellAll.bind(this);
   }
 
   setMobilePhone(checkPhones) {
     if (checkPhones == true) {
-      let newvar = setInterval(this.MobilePhone, 2000);
+      let newvar = setInterval(
+        this.MobilePhone,
+        5000 / this.props.productivity
+      );
       this.setState({ newvar: newvar });
     }
     if (checkPhones == false) {
@@ -39,14 +44,32 @@ export default class BuildMobilePhone extends Component {
     }
   }
 
+  autoSell() {
+    if (this.state.phones > 0) {
+      let phoneVal = this.state.phones;
+      this.setState({
+        phones: 0
+      });
+      this.props.phonesPayment(phoneVal);
+    }
+  }
+
+  sellAll() {
+    let phoneVal = this.state.phones;
+    this.setState({ phones: 0 });
+    this.props.phonesPayment(phoneVal);
+  }
+
   render() {
     return (
       <div>
         <MobilePhone
+          phonePrice={this.props.phonePrice}
           phones={this.state.phones}
           setMobilePhone={this.setMobilePhone}
           sellMobilePhone={this.sellMobilePhone}
-          phonePrice={this.props.phonePrice}
+          autoSell={this.autoSell}
+          sellAll={this.sellAll}
         />
       </div>
     );

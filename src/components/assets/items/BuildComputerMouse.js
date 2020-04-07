@@ -10,11 +10,16 @@ export default class BuildComputerMouse extends Component {
     this.ComputerMouse = this.ComputerMouse.bind(this);
     this.setComputerMouse = this.setComputerMouse.bind(this);
     this.sellComputerMouse = this.sellComputerMouse.bind(this);
+    this.autoSell = this.autoSell.bind(this);
+    this.sellAll = this.sellAll.bind(this);
   }
 
   setComputerMouse(checkMouse) {
     if (checkMouse == true) {
-      let newvar = setInterval(this.ComputerMouse, 1000);
+      let newvar = setInterval(
+        this.ComputerMouse,
+        2000 / this.props.productivity
+      );
       this.setState({ newvar: newvar });
     }
     if (checkMouse == false) {
@@ -39,14 +44,32 @@ export default class BuildComputerMouse extends Component {
     }
   }
 
+  autoSell() {
+    if (this.state.mice > 0) {
+      let miceVal = this.state.mice;
+      this.setState({
+        mice: 0
+      });
+      this.props.micePayment(miceVal);
+    }
+  }
+
+  sellAll() {
+    let miceVal = this.state.mice;
+    this.setState({ mice: 0 });
+    this.props.micePayment(miceVal);
+  }
+
   render() {
     return (
       <div>
         <ComputerMouse
+          mousePrice={this.props.mousePrice}
           mice={this.state.mice}
           setComputerMouse={this.setComputerMouse}
           sellComputerMouse={this.sellComputerMouse}
-          mousePrice={this.props.mousePrice}
+          autoSell={this.autoSell}
+          sellAll={this.sellAll}
         />
       </div>
     );

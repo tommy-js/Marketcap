@@ -21,6 +21,10 @@ function ComputerMouse(props) {
     props.sellComputerMouse(sellVal);
   }
 
+  function autoSell() {
+    setInterval(props.autoSell, 1000);
+  }
+
   return (
     <div>
       <div>Build Computer Mice</div>
@@ -35,6 +39,8 @@ function ComputerMouse(props) {
         onChange={setSellAmount}
       />
       <button onClick={sellAmount}>Sell</button>
+      <button onClick={autoSell}>Sell Automatically</button>
+      <button onClick={props.sellAll}>Sell All</button>
     </div>
   );
 }
