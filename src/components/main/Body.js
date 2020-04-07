@@ -5,6 +5,8 @@ import Expenses from "./subcomponents/Expenses";
 import Money from "./subcomponents/Money";
 import Credit from "./subcomponents/Credit";
 import Hireables from "./subcomponents/Hireables";
+import Calendar from "../calculations/Calendar";
+import Building from "../assets/Building";
 import employees from "./subcomponents/employees";
 
 export default class Body extends Component {
@@ -19,6 +21,9 @@ export default class Body extends Component {
       loanPayment: 0,
       monthlyPaybackValue: 0,
       credit: 5000,
+      days: 0,
+      buildingSpots: 5,
+      employeesHired: 0,
       termComplete: false,
       assets: []
     };
@@ -33,14 +38,15 @@ export default class Body extends Component {
   }
 
   componentDidMount() {
-    setInterval(this.updateMoney, 1000);
-    setInterval(this.salaryPayment, 7000);
-    setInterval(this.loanPay, 7000);
+    setInterval(this.updateMoney, 100);
+    setInterval(this.salaryPayment, 14000);
+    setInterval(this.loanPay, 60000);
   }
 
   updateMoney() {
     this.setState(prevState => ({
-      money: prevState.money + this.state.income
+      money: prevState.money + this.state.income / 20,
+      days: prevState.days + 1 / 20
     }));
   }
 
@@ -65,29 +71,36 @@ export default class Body extends Component {
   }
 
   purchaseMe(individual) {
+    if (this.state.employeesHired < this.state.buildingSpots) {
+      if (this.state.money >= 0) {
+        this.setState(prevState => ({
+          money: prevState.money - individual.salary
+        }));
+        this.setState(prevState => ({
+          assets: [...prevState.assets, salaryArray]
+        }));
+        this.setState(prevState => ({
+          salary: prevState.salary + individual.salary
+        }));
+        this.setState(prevState => ({
+          income: prevState.income + individual.value
+        }));
+        this.setState(prevState => ({
+          employeesHired: prevState.employeesHired + 1
+        }));
+        console.log(this.state.assets);
+      } else {
+        console.log("too expensive!");
+      }
+    } else {
+      return console.log("Too many people");
+    }
     const salaryArray = {
       name: individual.name,
       salary: individual.salary,
       id: Math.random() * 100000,
       value: individual.value
     };
-    if (this.state.money >= 0) {
-      this.setState(prevState => ({
-        money: prevState.money - individual.salary
-      }));
-      this.setState(prevState => ({
-        assets: [...prevState.assets, salaryArray]
-      }));
-      this.setState(prevState => ({
-        salary: prevState.salary + individual.salary
-      }));
-      this.setState(prevState => ({
-        income: prevState.income + individual.value
-      }));
-      console.log(this.state.assets);
-    } else {
-      console.log("too expensive!");
-    }
   }
 
   loanTakeout(e) {
@@ -128,6 +141,9 @@ export default class Body extends Component {
             salary: prevState.salary - status.salary
           }));
     }
+    this.setState(prevState => ({
+      employeesHired: prevState.employeesHired - 1
+    }));
     console.log(prelimArray);
     this.setState({ assets: prelimArray });
   }
@@ -135,6 +151,7 @@ export default class Body extends Component {
   render() {
     return (
       <div>
+        <Calendar days={this.state.days} />
         <Assets
           assets={this.state.assets}
           purchaseMe={this.purchaseMe}
@@ -155,6 +172,10 @@ export default class Body extends Component {
         />
         <Credit credit={this.state.credit} />
         <Hireables employees={employees} purchaseMe={this.purchaseMe} />
+        <Building
+          buildingSpots={this.state.buildingSpots}
+          employeesHired={this.state.employeesHired}
+        />
       </div>
     );
   }
