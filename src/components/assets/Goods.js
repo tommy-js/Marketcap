@@ -11,12 +11,18 @@ export default class Goods extends Component {
   }
 
   chipsPayment(sellAmount) {
-    let incomeValue = 50 / Math.log(this.state.chipsSold / 1000000 + 3) + 100;
+    sellAmount = Number(sellAmount);
     this.setState(prevState => ({
       chipsSold: prevState.chipsSold + sellAmount
     }));
-    this.props.addMoney(incomeValue);
+    let incomeValue = 165 - Math.log(this.state.chipsSold + 1) * 10;
+    if (incomeValue < 25) {
+      incomeValue = 25;
+    }
+    let passVal = incomeValue * sellAmount;
+    this.props.addMoney(passVal);
     console.log(incomeValue);
+    console.log(this.state.chipsSold);
   }
 
   render() {
