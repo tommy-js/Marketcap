@@ -45,6 +45,7 @@ function Assets(props) {
           totalLoans={props.loans}
           termComplete={props.termComplete}
           updateCredit={props.updateCredit}
+          deferLoanPayment={props.deferLoanPayment}
         />
       ))}
       <p>

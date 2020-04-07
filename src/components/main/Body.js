@@ -25,6 +25,7 @@ export default class Body extends Component {
       buildingSpots: 5,
       employeesHired: 0,
       termComplete: false,
+      loanDefer: false,
       assets: []
     };
     this.purchaseMe = this.purchaseMe.bind(this);
@@ -35,6 +36,7 @@ export default class Body extends Component {
     this.submitPaybackAmount = this.submitPaybackAmount.bind(this);
     this.updateCredit = this.updateCredit.bind(this);
     this.fireEmployee = this.fireEmployee.bind(this);
+    this.deferLoanPayment = this.deferLoanPayment.bind(this);
   }
 
   componentDidMount() {
@@ -57,17 +59,26 @@ export default class Body extends Component {
   }
 
   loanPay() {
-    let testingVal = this.state.loans - this.state.monthlyPaybackValue;
-    if (testingVal >= 0) {
-      this.setState(prevState => ({
-        money:
-          prevState.money -
-          this.state.loanPayment -
-          this.state.monthlyPaybackValue,
-        loans: prevState.loans - this.state.monthlyPaybackValue,
-        loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
-      }));
+    if (this.state.loanDefer == false) {
+      let testingVal = this.state.loans - this.state.monthlyPaybackValue;
+      if (testingVal >= 0) {
+        this.setState(prevState => ({
+          money:
+            prevState.money -
+            this.state.loanPayment -
+            this.state.monthlyPaybackValue,
+          loans: prevState.loans - this.state.monthlyPaybackValue,
+          loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
+        }));
+      }
     }
+  }
+
+  deferLoanPayment() {
+    this.setState({ loanDefer: true, dateOfDeferment: this.state.days });
+    setTimeout(() => {
+      this.setState({ loanDefer: false });
+    }, 180000);
   }
 
   purchaseMe(individual) {
@@ -162,6 +173,7 @@ export default class Body extends Component {
           termComplete={this.state.termComplete}
           updateCredit={this.updateCredit}
           fireEmployee={this.fireEmployee}
+          deferLoanPayment={this.deferLoanPayment}
         />
         <Money money={this.state.money} />
         <Expenses expenses={this.state.expenses} />

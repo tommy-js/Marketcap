@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import DeferPayment from "./DeferPayment";
 
 function LoanFunction(props) {
   const [loanCounter, setLoanCounter] = useState(0);
@@ -9,6 +10,8 @@ function LoanFunction(props) {
   const [checkChanger, setCheckChanger] = useState(true);
   const [creditCheck, setCreditCheck] = useState(props.credit);
   const [newDisplay, setDisplay] = useState("block");
+  const [showDefer, setDefer] = useState(true);
+  const [showDeferButton, setDeferButton] = useState("block");
 
   function updateInput(e) {
     setLoanCounter(e.target.value);
@@ -39,6 +42,11 @@ function LoanFunction(props) {
       setLoanMonthly(loanCounter);
     }
     setCheckChanger(true);
+  }
+
+  function deferPayment() {
+    setDeferButton("none");
+    props.deferLoanPayment();
   }
 
   let x;
@@ -107,6 +115,12 @@ function LoanFunction(props) {
         Set loan payback amount
       </button>
       <button onClick={x => closeLoan(x)}>Close Loan</button>
+      <DeferPayment
+        deferPayment={deferPayment}
+        showDefer={showDefer}
+        showDeferButton={showDeferButton}
+        credit={props.credit}
+      />
     </div>
   );
 }
