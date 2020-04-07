@@ -9,6 +9,8 @@ import Calendar from "../calculations/Calendar";
 import Building from "../assets/Building";
 import Bankrupt from "./subcomponents/Bankrupt";
 import Goods from "../assets/Goods";
+import OwnedEstate from "../assets/OwnedEstate";
+import NotificationSystem from "../functions/Notifications/NotificationSystem";
 import employees from "./subcomponents/employees";
 
 // money: Math.random() * 5000;
@@ -17,7 +19,7 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: 0,
+      money: 10000000,
       expenses: 0,
       salary: 0,
       income: 0,
@@ -30,7 +32,8 @@ export default class Body extends Component {
       employeesHired: 0,
       termComplete: false,
       loanDefer: false,
-      assets: []
+      assets: [],
+      ownedBuildings: []
     };
     this.purchaseMe = this.purchaseMe.bind(this);
     this.updateMoney = this.updateMoney.bind(this);
@@ -43,6 +46,7 @@ export default class Body extends Component {
     this.deferLoanPayment = this.deferLoanPayment.bind(this);
     this.emergencyCash = this.emergencyCash.bind(this);
     this.addMoney = this.addMoney.bind(this);
+    this.setBuildingSpots = this.setBuildingSpots.bind(this);
   }
 
   componentDidMount() {
@@ -176,6 +180,19 @@ export default class Body extends Component {
     }));
   }
 
+  setBuildingSpots(building) {
+    if (this.state.money > building.price) {
+      this.setState(prevState => ({
+        buildingSpots: prevState.buildingSpots + building.capacity,
+        money: prevState.money - building.price,
+        ownedBuildings: [...prevState.ownedBuildings, building]
+      }));
+      console.log(this.state.ownedBuildings);
+    } else {
+      console.log("Can't afford");
+    }
+  }
+
   render() {
     return (
       <div>
@@ -204,9 +221,12 @@ export default class Body extends Component {
         <Building
           buildingSpots={this.state.buildingSpots}
           employeesHired={this.state.employeesHired}
+          setBuildingSpots={this.setBuildingSpots}
         />
         <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
+        <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
         <Goods addMoney={this.addMoney} />
+        <NotificationSystem />
       </div>
     );
   }
