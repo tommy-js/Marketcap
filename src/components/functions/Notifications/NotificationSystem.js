@@ -1,16 +1,42 @@
 import React, { Component } from "react";
+import MillIncomeNotification from "./specific_notifications/MillIncomeNotification";
+import IncomeNotification from "./specific_notifications/IncomeNotification";
 
 export default class NotificationSystem extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      calledMillionaire: false,
+      millFunc: {
+        changeMillionaireStat: this.changeMillionaireStat
+      }
+    };
+    this.changeMillionaireStat = this.changeMillionaireStat.bind(this);
+  }
+
+  changeMillionaireStat(boolVar) {
+    this.setState({ calledMillionaire: true });
   }
 
   render() {
-    return (
-      <div>
-        <p>Notifications</p>
-      </div>
-    );
+    const { money } = this.props;
+    if (money > 1000000 && this.state.calledMillionaire == false) {
+      return (
+        <div>
+          <MillIncomeNotification
+            message="You are now a millionaire!"
+            changeMillionaireStat={this.changeMillionaireStat}
+          />
+        </div>
+      );
+    } else if (money <= 0) {
+      return (
+        <div>
+          <IncomeNotification message="You are bankrupt!" />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }

@@ -10,7 +10,7 @@ import Building from "../assets/Building";
 import Bankrupt from "./subcomponents/Bankrupt";
 import Goods from "../assets/Goods";
 import OwnedEstate from "../assets/OwnedEstate";
-import NotificationSystem from "../functions/Notifications/NotificationSystem";
+import Notification from "../functions/Notifications/Notification";
 import employees from "./subcomponents/employees";
 
 // money: Math.random() * 5000;
@@ -19,7 +19,7 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: 10000000,
+      money: 100,
       expenses: 0,
       salary: 0,
       income: 0,
@@ -226,7 +226,7 @@ export default class Body extends Component {
         <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
         <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
         <Goods addMoney={this.addMoney} />
-        <NotificationSystem />
+        <Notification money={this.state.money} />
       </div>
     );
   }
