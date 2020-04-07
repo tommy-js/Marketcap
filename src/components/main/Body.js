@@ -42,6 +42,7 @@ export default class Body extends Component {
     this.fireEmployee = this.fireEmployee.bind(this);
     this.deferLoanPayment = this.deferLoanPayment.bind(this);
     this.emergencyCash = this.emergencyCash.bind(this);
+    this.addMoney = this.addMoney.bind(this);
   }
 
   componentDidMount() {
@@ -169,6 +170,12 @@ export default class Body extends Component {
     this.setState({ money: 50000, credit: 500, assets: [] });
   }
 
+  addMoney(addAmount) {
+    this.setState(prevState => ({
+      money: prevState.money + addAmount
+    }));
+  }
+
   render() {
     return (
       <div>
@@ -199,7 +206,7 @@ export default class Body extends Component {
           employeesHired={this.state.employeesHired}
         />
         <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
-        <Goods />
+        <Goods addMoney={this.addMoney} />
       </div>
     );
   }
