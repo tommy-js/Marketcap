@@ -9,7 +9,8 @@ export default class Employee extends Component {
       status: {
         id: this.props.id,
         salary: this.props.salary,
-        value: this.props.value
+        value: this.props.value,
+        profession: this.props.profession
       }
     };
   }
@@ -24,6 +25,7 @@ export default class Employee extends Component {
         <div>Name: {this.props.name}</div>
         <div>Weekly salary: ${this.props.salary}</div>
         <div>Weekly value: ${this.props.value * 7}</div>
+        <div>Profession: {this.props.profession}</div>
         <button onClick={() => this.fireEmployee()}>Fire me</button>
       </div>
     );

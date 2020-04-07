@@ -5,7 +5,8 @@ function HireEmployee(props) {
   const individual = {
     name: props.name,
     salary: props.salary,
-    value: props.value
+    value: props.value,
+    profession: props.profession
   };
 
   function passToHireables(individual) {
@@ -19,6 +20,7 @@ function HireEmployee(props) {
       <div>Name: {individual.name}</div>
       <div>Salary: {individual.salary}</div>
       <div>Value: {individual.value}</div>
+      <div>Profession: {individual.profession}</div>
       <button onClick={() => passToHireables(individual)}>Hire</button>
     </div>
   );

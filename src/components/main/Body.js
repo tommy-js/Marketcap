@@ -7,13 +7,17 @@ import Credit from "./subcomponents/Credit";
 import Hireables from "./subcomponents/Hireables";
 import Calendar from "../calculations/Calendar";
 import Building from "../assets/Building";
+import Bankrupt from "./subcomponents/Bankrupt";
+import Goods from "../assets/Goods";
 import employees from "./subcomponents/employees";
+
+// money: Math.random() * 5000;
 
 export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: Math.random() * 5000,
+      money: 0,
       expenses: 0,
       salary: 0,
       income: 0,
@@ -37,6 +41,7 @@ export default class Body extends Component {
     this.updateCredit = this.updateCredit.bind(this);
     this.fireEmployee = this.fireEmployee.bind(this);
     this.deferLoanPayment = this.deferLoanPayment.bind(this);
+    this.emergencyCash = this.emergencyCash.bind(this);
   }
 
   componentDidMount() {
@@ -110,6 +115,7 @@ export default class Body extends Component {
       name: individual.name,
       salary: individual.salary,
       id: Math.random() * 100000,
+      profession: individual.profession,
       value: individual.value
     };
   }
@@ -159,6 +165,10 @@ export default class Body extends Component {
     this.setState({ assets: prelimArray });
   }
 
+  emergencyCash() {
+    this.setState({ money: 50000, credit: 500, assets: [] });
+  }
+
   render() {
     return (
       <div>
@@ -188,6 +198,8 @@ export default class Body extends Component {
           buildingSpots={this.state.buildingSpots}
           employeesHired={this.state.employeesHired}
         />
+        <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
+        <Goods />
       </div>
     );
   }

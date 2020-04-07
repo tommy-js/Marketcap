@@ -22,6 +22,7 @@ function Hireables(props) {
           salary={el.salary}
           value={el.value}
           key={el.id}
+          profession={el.profession}
           purchaseMe={props.purchaseMe}
           setNewEmployees={setNewEmployees}
         />

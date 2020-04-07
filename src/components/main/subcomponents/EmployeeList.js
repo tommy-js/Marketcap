@@ -10,6 +10,7 @@ function CompanyList(props) {
           name={el.name}
           salary={el.salary}
           value={el.value}
+          profession={el.profession}
           fireEmployee={props.fireEmployee}
         />
       ))}
