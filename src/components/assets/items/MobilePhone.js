@@ -30,6 +30,10 @@ function MobilePhone(props) {
       <div>Build Smartphone</div>
       <div>Current Price: {props.phonePrice}</div>
       <div>You own {props.phones} phones</div>
+      <div>Material cost:</div>
+      <div>Glass: 5(-{props.totalGlass})</div>
+      <div>Plastic: 2(-{props.totalPlastic})</div>
+      <div>Aluminum: 3(-{props.totalAluminum})</div>
       <button onClick={startMobilePhone}>Build</button>
       <button onClick={endMobilePhone}>Stop Building</button>
       <input

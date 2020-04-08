@@ -16,22 +16,31 @@ export default class BuildComputerChip extends Component {
 
   setCPUChips(checkCPU) {
     if (checkCPU == true) {
-      this.setState({ buildChips: true });
       let newvar = setInterval(this.CPUChips, 8000 / this.props.productivity);
       this.setState({ newvar: newvar });
     }
     if (checkCPU == false) {
       clearInterval(this.state.newvar);
       console.log("not passing");
-      this.setState({ buildChips: false });
     }
   }
 
   CPUChips() {
-    this.setState(prevState => ({
-      chips: prevState.chips + 1
-    }));
-    console.log("working");
+    if (
+      this.props.totalGlass >= 1 &&
+      this.props.totalAluminum >= 6 &&
+      this.props.totalPlastic >= 3
+    ) {
+      this.props.removeGlass(1);
+      this.props.removePlastic(3);
+      this.props.removeAluminum(6);
+      this.setState(prevState => ({
+        chips: prevState.chips + 1
+      }));
+      console.log("working");
+    } else {
+      clearInterval(this.state.newvar);
+    }
   }
 
   sellCPUChip(sellAmount) {
@@ -63,6 +72,9 @@ export default class BuildComputerChip extends Component {
     return (
       <div>
         <ComputerChip
+          totalGlass={this.props.totalGlass}
+          totalAluminum={this.props.totalAluminum}
+          totalPlastic={this.props.totalPlastic}
           chipPrice={this.props.chipPrice}
           chips={this.state.chips}
           setCPUChips={this.setCPUChips}

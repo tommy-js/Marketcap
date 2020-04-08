@@ -30,6 +30,10 @@ function ComputerChip(props) {
       <div>Build Computer Chips</div>
       <div>Current Price: {props.chipPrice}</div>
       <div>You own {props.chips} chips</div>
+      <div>Material cost:</div>
+      <div>Glass: 1(-{props.totalGlass})</div>
+      <div>Plastic: 3(-{props.totalPlastic})</div>
+      <div>Aluminum: 6(-{props.totalAluminum})</div>
       <button onClick={startCPUChip}>Build</button>
       <button onClick={endCPUChip}>Stop Building</button>
       <input

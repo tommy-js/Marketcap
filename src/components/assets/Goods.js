@@ -72,16 +72,34 @@ export default class Goods extends Component {
       <div>
         <div>Manufacture goods</div>
         <BuildComputerChip
+          totalGlass={this.props.totalGlass}
+          totalPlastic={this.props.totalPlastic}
+          totalAluminum={this.props.totalAluminum}
+          removeGlass={this.props.removeGlass}
+          removePlastic={this.props.removePlastic}
+          removeAluminum={this.props.removeAluminum}
           chipsPayment={this.chipsPayment}
           chipPrice={this.state.chipPrice}
           productivity={this.props.productivity}
         />
         <BuildComputerMouse
+          totalGlass={this.props.totalGlass}
+          totalPlastic={this.props.totalPlastic}
+          totalAluminum={this.props.totalAluminum}
+          removeGlass={this.props.removeGlass}
+          removePlastic={this.props.removePlastic}
+          removeAluminum={this.props.removeAluminum}
           micePayment={this.micePayment}
           mousePrice={this.state.mousePrice}
           productivity={this.props.productivity}
         />
         <BuildMobilePhone
+          totalGlass={this.props.totalGlass}
+          totalPlastic={this.props.totalPlastic}
+          totalAluminum={this.props.totalAluminum}
+          removeGlass={this.props.removeGlass}
+          removePlastic={this.props.removePlastic}
+          removeAluminum={this.props.removeAluminum}
           phonesPayment={this.phonesPayment}
           phonePrice={this.state.phonePrice}
           productivity={this.props.productivity}

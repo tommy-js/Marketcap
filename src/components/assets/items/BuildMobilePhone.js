@@ -29,10 +29,21 @@ export default class BuildMobilePhone extends Component {
   }
 
   MobilePhone() {
-    this.setState(prevState => ({
-      phones: prevState.phones + 1
-    }));
-    console.log("working");
+    if (
+      this.props.totalGlass >= 5 &&
+      this.props.totalAluminum >= 3 &&
+      this.props.totalPlastic >= 2
+    ) {
+      this.props.removeGlass(5);
+      this.props.removePlastic(2);
+      this.props.removeAluminum(3);
+      this.setState(prevState => ({
+        phones: prevState.phones + 1
+      }));
+      console.log("working");
+    } else {
+      clearInterval(this.state.newvar);
+    }
   }
 
   sellMobilePhone(sellAmount) {
@@ -64,6 +75,9 @@ export default class BuildMobilePhone extends Component {
     return (
       <div>
         <MobilePhone
+          totalGlass={this.props.totalGlass}
+          totalAluminum={this.props.totalAluminum}
+          totalPlastic={this.props.totalPlastic}
           phonePrice={this.props.phonePrice}
           phones={this.state.phones}
           setMobilePhone={this.setMobilePhone}

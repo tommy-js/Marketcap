@@ -29,10 +29,21 @@ export default class BuildComputerMouse extends Component {
   }
 
   ComputerMouse() {
-    this.setState(prevState => ({
-      mice: prevState.mice + 1
-    }));
-    console.log("working");
+    if (
+      this.props.totalGlass >= 1 &&
+      this.props.totalAluminum >= 2 &&
+      this.props.totalPlastic >= 5
+    ) {
+      this.props.removeGlass(1);
+      this.props.removePlastic(5);
+      this.props.removeAluminum(2);
+      this.setState(prevState => ({
+        mice: prevState.mice + 1
+      }));
+      console.log("working");
+    } else {
+      clearInterval(this.state.newvar);
+    }
   }
 
   sellComputerMouse(sellAmount) {
@@ -64,6 +75,9 @@ export default class BuildComputerMouse extends Component {
     return (
       <div>
         <ComputerMouse
+          totalGlass={this.props.totalGlass}
+          totalPlastic={this.props.totalPlastic}
+          totalAluminum={this.props.totalAluminum}
           mousePrice={this.props.mousePrice}
           mice={this.state.mice}
           setComputerMouse={this.setComputerMouse}

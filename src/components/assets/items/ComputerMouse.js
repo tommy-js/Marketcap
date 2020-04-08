@@ -30,6 +30,10 @@ function ComputerMouse(props) {
       <div>Build Computer Mice</div>
       <div>Current Price: {props.mousePrice}</div>
       <div>You own {props.mice} mice</div>
+      <div>Material cost:</div>
+      <div>Glass: 1(-{props.totalGlass})</div>
+      <div>Plastic: 5(-{props.totalPlastic})</div>
+      <div>Aluminum: 2(-{props.totalAluminum})</div>
       <button onClick={startComputerMouse}>Build</button>
       <button onClick={endComputerMouse}>Stop Building</button>
       <input
