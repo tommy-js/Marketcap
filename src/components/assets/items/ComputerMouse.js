@@ -28,7 +28,7 @@ function ComputerMouse(props) {
   return (
     <div>
       <div>Build Computer Mice</div>
-      <div>Current Price: {props.mousePrice}</div>
+      <div>Current Price: ${Math.floor(props.mousePrice * 100) / 100}</div>
       <div>You own {props.mice} mice</div>
       <div>Material cost:</div>
       <div>Glass: 1(-{props.totalGlass})</div>

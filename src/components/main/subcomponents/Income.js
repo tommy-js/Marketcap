@@ -3,9 +3,9 @@ import "../../../main.css";
 
 function Income(props) {
   let incomeVar = props.income * 7 - props.salary - props.loanPayment;
-  let totalIncome = incomeVar;
+  let totalIncome = Math.abs(Math.floor(incomeVar * 100) / 100);
 
-  return <div>Income per week: ${totalIncome}</div>;
+  return <div>Weekly payments: ${totalIncome}</div>;
 }
 
 export default Income;

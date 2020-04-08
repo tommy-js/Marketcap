@@ -11,7 +11,8 @@ function DeferPayment(props) {
     <div>
       <div>
         Defer your payment for 3 months so long as your credit is above 10,000.
-        Your credit is currently {props.credit}.
+        Your credit is currently {props.credit}. Note that this will reduce your
+        credit by 1,000 points.
       </div>
       <button
         style={{ display: props.showDeferButton }}

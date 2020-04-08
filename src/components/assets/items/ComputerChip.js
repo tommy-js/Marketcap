@@ -28,7 +28,7 @@ function ComputerChip(props) {
   return (
     <div>
       <div>Build Computer Chips</div>
-      <div>Current Price: {props.chipPrice}</div>
+      <div>Current Price: ${Math.floor(props.chipPrice * 100) / 100}</div>
       <div>You own {props.chips} chips</div>
       <div>Material cost:</div>
       <div>Glass: 1(-{props.totalGlass})</div>

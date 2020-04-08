@@ -12,7 +12,7 @@ export default class Goods extends Component {
       phonesSold: 0,
       chipPrice: 165,
       mousePrice: 50,
-      phonesPrice: 400
+      phonePrice: 400
     };
     this.chipsPayment = this.chipsPayment.bind(this);
     this.micePayment = this.micePayment.bind(this);
@@ -24,9 +24,9 @@ export default class Goods extends Component {
     this.setState(prevState => ({
       chipsSold: prevState.chipsSold + sellAmount
     }));
-    let incomeValue = 165 - Math.log(this.state.chipsSold + 1) * 10;
-    if (incomeValue < 45) {
-      incomeValue = 45;
+    let incomeValue = 225 - Math.log(this.state.chipsSold + 1) * 10;
+    if (incomeValue < 85) {
+      incomeValue = 85;
     }
     this.setState({ chipPrice: incomeValue });
     let passVal = incomeValue * sellAmount;
@@ -40,9 +40,9 @@ export default class Goods extends Component {
     this.setState(prevState => ({
       miceSold: prevState.miceSold + sellAmount
     }));
-    let incomeValue = 50 - Math.log(this.state.miceSold + 1) * 10;
-    if (incomeValue < 15) {
-      incomeValue = 15;
+    let incomeValue = 70 - Math.log(this.state.miceSold + 1) * 10;
+    if (incomeValue < 35) {
+      incomeValue = 35;
     }
     this.setState({ mousePrice: incomeValue });
     let passVal = incomeValue * sellAmount;
@@ -57,8 +57,8 @@ export default class Goods extends Component {
       phonesSold: prevState.phonesSold + sellAmount
     }));
     let incomeValue = 400 - Math.log(this.state.phonesSold + 1) * 10;
-    if (incomeValue < 110) {
-      incomeValue = 110;
+    if (incomeValue < 210) {
+      incomeValue = 210;
     }
     this.setState({ phonePrice: incomeValue });
     let passVal = incomeValue * sellAmount;

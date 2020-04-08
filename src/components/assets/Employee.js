@@ -23,8 +23,7 @@ export default class Employee extends Component {
     return (
       <div className="company_body" style={{ display: this.state.display }}>
         <div>Name: {this.props.name}</div>
-        <div>Weekly salary: ${this.props.salary}</div>
-        <div>Weekly value: ${this.props.value * 7}</div>
+        <div>Weekly salary: ${this.props.salary.toLocaleString()}</div>
         <div>Profession: {this.props.profession}</div>
         <button onClick={() => this.fireEmployee()}>Fire me</button>
       </div>

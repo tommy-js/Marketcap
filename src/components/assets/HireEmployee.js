@@ -4,7 +4,7 @@ function HireEmployee(props) {
   const [display, setDisplay] = useState("block");
   const individual = {
     name: props.name,
-    salary: props.salary,
+    salary: Math.floor(props.salary * 100) / 100,
     value: props.value,
     profession: props.profession
   };
@@ -18,8 +18,7 @@ function HireEmployee(props) {
   return (
     <div style={{ display: display }}>
       <div>Name: {individual.name}</div>
-      <div>Salary: {individual.salary}</div>
-      <div>Value: {individual.value}</div>
+      <div>Salary: ${individual.salary}</div>
       <div>Profession: {individual.profession}</div>
       <button onClick={() => passToHireables(individual)}>Hire</button>
     </div>

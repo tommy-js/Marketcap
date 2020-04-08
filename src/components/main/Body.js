@@ -66,7 +66,7 @@ export default class Body extends Component {
   componentDidMount() {
     setInterval(this.updateMoney, 100);
     setInterval(this.salaryPayment, 14000);
-    setInterval(this.loanPay, 60000);
+    setInterval(this.loanPay, 10000);
   }
 
   updateMoney() {
@@ -100,6 +100,9 @@ export default class Body extends Component {
 
   deferLoanPayment() {
     this.setState({ loanDefer: true, dateOfDeferment: this.state.days });
+    this.setState(prevState => ({
+      credit: prevState.credit - 1000
+    }));
     setTimeout(() => {
       this.setState({ loanDefer: false });
     }, 180000);

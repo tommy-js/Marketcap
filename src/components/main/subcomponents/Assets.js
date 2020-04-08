@@ -8,6 +8,7 @@ function Assets(props) {
   const [identifier, setIdentifier] = useState("");
   const [loans, setLoans] = useState(props.loans);
   const [currentLoans, setCurrentLoans] = useState([]);
+  const [loanCount, setLoanCount] = useState(0);
   let mapper = [];
   if (loans > 1000000) {
     if (loans > 1000000000) {
@@ -19,17 +20,24 @@ function Assets(props) {
     }
   }
 
-  function takeoutLoan() {
-    const keylog = {
-      id: currentLoans.length
-    };
+  function dropLoan() {
+    setLoanCount(prev => prev - 1);
+  }
 
-    setCurrentLoans([
-      ...currentLoans,
-      {
+  function takeoutLoan() {
+    if (loanCount < 3) {
+      const keylog = {
         id: currentLoans.length
-      }
-    ]);
+      };
+
+      setCurrentLoans([
+        ...currentLoans,
+        {
+          id: currentLoans.length
+        }
+      ]);
+      setLoanCount(prev => prev + 1);
+    }
   }
 
   return (
@@ -46,6 +54,7 @@ function Assets(props) {
           termComplete={props.termComplete}
           updateCredit={props.updateCredit}
           deferLoanPayment={props.deferLoanPayment}
+          dropLoan={dropLoan}
         />
       ))}
       <p>

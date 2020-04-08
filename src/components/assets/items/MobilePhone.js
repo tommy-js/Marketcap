@@ -28,7 +28,7 @@ function MobilePhone(props) {
   return (
     <div>
       <div>Build Smartphone</div>
-      <div>Current Price: {props.phonePrice}</div>
+      <div>Current Price: ${Math.floor(props.phonePrice * 100) / 100}</div>
       <div>You own {props.phones} phones</div>
       <div>Material cost:</div>
       <div>Glass: 5(-{props.totalGlass})</div>

@@ -62,6 +62,7 @@ function LoanFunction(props) {
       let passCredit = creditCheck * 0.1;
       props.updateCredit(passCredit);
       console.log(passCredit);
+      props.dropLoan();
     } else {
       setDisplay("block");
     }
