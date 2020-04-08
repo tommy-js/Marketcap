@@ -10,7 +10,10 @@ export default class Notification extends Component {
   render() {
     return (
       <div>
-        <NotificationSystem money={this.props.money} />
+        <NotificationSystem
+          money={this.props.money}
+          notificationMessage={this.props.notificationMessage}
+        />
       </div>
     );
   }

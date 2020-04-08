@@ -13,6 +13,7 @@ import Goods from "../assets/Goods";
 import OwnedEstate from "../assets/OwnedEstate";
 import Notification from "../functions/Notifications/Notification";
 import Materials from "../assets/Materials";
+import MapSystem from "./map/MapSystem";
 import employees from "./subcomponents/employees";
 
 // money: Math.random() * 5000;
@@ -41,6 +42,7 @@ export default class Body extends Component {
       totalPlastic: 0,
       termComplete: false,
       loanDefer: false,
+      notificationMessage: "",
       assets: [],
       ownedBuildings: []
     };
@@ -73,7 +75,7 @@ export default class Body extends Component {
   updateMoney() {
     this.setState(prevState => ({
       money: prevState.money + this.state.income / 20,
-      days: prevState.days + 1 / 20
+      days: prevState.days + 1 / 2
     }));
   }
 
@@ -207,7 +209,8 @@ export default class Body extends Component {
       }));
       console.log(this.state.ownedBuildings);
     } else {
-      console.log("Can't afford");
+      this.setState({ notificationMessage: "Can't Afford!" });
+      setTimeout(() => this.setState({ notificationMessage: "" }), 3000);
     }
   }
 
@@ -268,6 +271,7 @@ export default class Body extends Component {
   render() {
     return (
       <div>
+        <MapSystem />
         <div className="right_block">
           <Calendar days={this.state.days} />
           <Assets
@@ -314,7 +318,10 @@ export default class Body extends Component {
             addMoney={this.addMoney}
             productivity={this.state.productivity}
           />
-          <Notification money={this.state.money} />
+          <Notification
+            money={this.state.money}
+            notificationMessage={this.state.notificationMessage}
+          />
         </div>
         <div className="materials">
           <Materials

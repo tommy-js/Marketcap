@@ -1,4 +1,7 @@
 import React from "react";
+import "../../main.scss";
+import group from "../images/icons/group.png";
+import cost from "../images/icons/money.png";
 
 function GetRealEstate(props) {
   const building = {
@@ -9,10 +12,17 @@ function GetRealEstate(props) {
   };
   return (
     <div>
-      <p>Location: {building.name}</p>
-      <p>Square feet: {building.space}</p>
-      <p>Capacity: {building.capacity}</p>
-      <p>Cost: {building.price}</p>
+      <p>{building.name}</p>
+      <p className="info_container">
+        <img className="small_icon" src={group} />
+        {building.capacity}
+      </p>
+
+      <p className="info_container">
+        {" "}
+        <img className="small_icon" src={cost} />
+        {building.price.toLocaleString()}
+      </p>
       <button onClick={() => props.setBuildingSpots(building)}>Buy</button>
       <button>Rent</button>
     </div>

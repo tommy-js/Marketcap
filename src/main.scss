@@ -7,10 +7,6 @@
   border-radius: 5px;
 }
 
-.calendar {
-  @include standard_body;
-}
-
 .employee_list {
   height: 450px;
   @include standard_body;
@@ -53,4 +49,51 @@
 .building_block {
   @include standard_body;
   float: right;
+}
+
+.info_container {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.small_icon {
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
+}
+
+.calendar {
+  @include standard_body;
+}
+
+.calendar:hover > .hidden_days {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.hidden_days {
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.show_days {
+  opacity: 1;
+}
+
+.map {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  border: 1px solid blue;
+}
+
+.map_block {
+  position: relative;
+  margin: 25px;
+  height: 40px;
+  width: 40px;
+  background-color: red;
 }

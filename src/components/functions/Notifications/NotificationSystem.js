@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MillIncomeNotification from "./specific_notifications/MillIncomeNotification";
 import IncomeNotification from "./specific_notifications/IncomeNotification";
+import GeneralNotification from "./specific_notifications/GeneralNotification";
 
 export default class NotificationSystem extends Component {
   constructor(props) {
@@ -33,6 +34,12 @@ export default class NotificationSystem extends Component {
       return (
         <div>
           <IncomeNotification message="You are bankrupt!" />
+        </div>
+      );
+    } else if (this.props.notificationMessage != "") {
+      return (
+        <div>
+          <GeneralNotification message={this.props.notificationMessage} />
         </div>
       );
     } else {
