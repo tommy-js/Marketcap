@@ -2,7 +2,8 @@ import React, { prevState, useState } from "react";
 import PurchaseFunction from "../../functions/PurchaseFunction";
 import EmployeeList from "./EmployeeList";
 import LoanFunction from "../../functions/LoanFunction";
-import "../../../main.css";
+import Credit from "./Credit";
+import "../../../main.scss";
 
 function Assets(props) {
   const [identifier, setIdentifier] = useState("");
@@ -42,26 +43,30 @@ function Assets(props) {
 
   return (
     <div>
-      <EmployeeList assets={props.assets} fireEmployee={props.fireEmployee} />
-
-      {currentLoans.map(el => (
-        <LoanFunction
-          key={el.id}
-          loanTakeout={props.loanTakeout}
-          submitPaybackAmount={props.submitPaybackAmount}
-          credit={props.credit}
-          totalLoans={props.loans}
-          termComplete={props.termComplete}
-          updateCredit={props.updateCredit}
-          deferLoanPayment={props.deferLoanPayment}
-          dropLoan={dropLoan}
-        />
-      ))}
-      <p>
-        <button onClick={() => takeoutLoan()}>Take out new loan</button>
-        Your loans are: ${props.loans.toLocaleString()}
-        {identifier}
-      </p>
+      <div className="loans">
+        <Credit credit={props.credit} />
+        {currentLoans.map(el => (
+          <LoanFunction
+            key={el.id}
+            loanTakeout={props.loanTakeout}
+            submitPaybackAmount={props.submitPaybackAmount}
+            credit={props.credit}
+            totalLoans={props.loans}
+            termComplete={props.termComplete}
+            updateCredit={props.updateCredit}
+            deferLoanPayment={props.deferLoanPayment}
+            dropLoan={dropLoan}
+          />
+        ))}
+        <p>
+          <button onClick={() => takeoutLoan()}>Take out new loan</button>
+          Your loans are: ${props.loans.toLocaleString()}
+          {identifier}
+        </p>
+      </div>
+      <div className="employee_list">
+        <EmployeeList assets={props.assets} fireEmployee={props.fireEmployee} />
+      </div>
     </div>
   );
 }

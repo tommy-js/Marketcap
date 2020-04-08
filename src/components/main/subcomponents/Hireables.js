@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HireEmployee from "../../assets/HireEmployee";
 import employees from "./employees";
+import "../../../main.scss";
 
 function Hireables(props) {
   const [mapper, setMapper] = useState(employees.slice(0, 4));
@@ -15,7 +16,7 @@ function Hireables(props) {
   }
 
   return (
-    <div>
+    <div className="hireables">
       {mapper.map(el => (
         <HireEmployee
           name={el.name}

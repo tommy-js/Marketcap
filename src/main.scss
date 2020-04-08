@@ -1,0 +1,56 @@
+@mixin standard_body {
+  position: relative;
+  width: 300px;
+  margin: 25px;
+  border: 1px solid red;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.calendar {
+  @include standard_body;
+}
+
+.employee_list {
+  height: 450px;
+  @include standard_body;
+}
+
+.loans {
+  @include standard_body;
+}
+
+.hireables {
+  @include standard_body;
+}
+
+.business_assets {
+  @include standard_body;
+}
+
+.right_block {
+  float: right;
+  display: block;
+}
+
+.goods_block {
+  @include standard_body;
+}
+
+.materials {
+  display: inline-block;
+}
+
+.materials_block {
+  @include standard_body;
+  vertical-align: top;
+}
+
+.left_block {
+  display: inline-block;
+}
+
+.building_block {
+  @include standard_body;
+  float: right;
+}

@@ -27,13 +27,13 @@ function ComputerMouse(props) {
 
   return (
     <div>
-      <div>Build Computer Mice</div>
+      <div>Build Computer Mice ({props.mice})</div>
       <div>Current Price: ${Math.floor(props.mousePrice * 100) / 100}</div>
-      <div>You own {props.mice} mice</div>
       <div>Material cost:</div>
-      <div>Glass: 1(-{props.totalGlass})</div>
-      <div>Plastic: 5(-{props.totalPlastic})</div>
-      <div>Aluminum: 2(-{props.totalAluminum})</div>
+      <div>
+        Glass: 1(-{props.totalGlass}), Plastic: 5(-{props.totalPlastic}),
+        Aluminum: 2(-{props.totalAluminum})
+      </div>
       <button onClick={startComputerMouse}>Build</button>
       <button onClick={endComputerMouse}>Stop Building</button>
       <input

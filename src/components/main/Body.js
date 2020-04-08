@@ -1,4 +1,5 @@
 import React, { Component, prevState } from "react";
+import "../../main.css";
 import Assets from "./subcomponents/Assets";
 import Income from "./subcomponents/Income";
 import Expenses from "./subcomponents/Expenses";
@@ -267,51 +268,61 @@ export default class Body extends Component {
   render() {
     return (
       <div>
-        <Calendar days={this.state.days} />
-        <Assets
-          assets={this.state.assets}
-          purchaseMe={this.purchaseMe}
-          loanTakeout={this.loanTakeout}
-          loans={this.state.loans}
-          credit={this.state.credit}
-          submitPaybackAmount={this.submitPaybackAmount}
-          termComplete={this.state.termComplete}
-          updateCredit={this.updateCredit}
-          fireEmployee={this.fireEmployee}
-          deferLoanPayment={this.deferLoanPayment}
-        />
-        <Money money={this.state.money} />
-        <Expenses expenses={this.state.expenses} />
-        <Income
-          income={this.state.income}
-          loanPayment={this.state.loanPayment}
-          salary={this.state.salary}
-        />
-        <Credit credit={this.state.credit} />
-        <Hireables employees={employees} purchaseMe={this.purchaseMe} />
+        <div className="right_block">
+          <Calendar days={this.state.days} />
+          <Assets
+            assets={this.state.assets}
+            purchaseMe={this.purchaseMe}
+            loanTakeout={this.loanTakeout}
+            loans={this.state.loans}
+            credit={this.state.credit}
+            submitPaybackAmount={this.submitPaybackAmount}
+            termComplete={this.state.termComplete}
+            updateCredit={this.updateCredit}
+            fireEmployee={this.fireEmployee}
+            deferLoanPayment={this.deferLoanPayment}
+            credit={this.state.credit}
+          />
+        </div>
         <Building
           buildingSpots={this.state.buildingSpots}
           employeesHired={this.state.employeesHired}
           setBuildingSpots={this.setBuildingSpots}
         />
-        <Bankrupt money={this.state.money} emergencyCash={this.emergencyCash} />
-        <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
-        <Goods
-          totalGlass={this.state.totalGlass}
-          totalAluminum={this.state.totalAluminum}
-          totalPlastic={this.state.totalPlastic}
-          removeGlass={this.removeGlass}
-          removeAluminum={this.removeAluminum}
-          removePlastic={this.removePlastic}
-          addMoney={this.addMoney}
-          productivity={this.state.productivity}
-        />
-        <Notification money={this.state.money} />
-        <Materials
-          addGlass={this.addGlass}
-          addAluminum={this.addAluminum}
-          addPlastic={this.addPlastic}
-        />
+        <div className="business_assets">
+          <Money money={this.state.money} />
+          <Income
+            income={this.state.income}
+            loanPayment={this.state.loanPayment}
+            salary={this.state.salary}
+          />
+        </div>
+        <Hireables employees={employees} purchaseMe={this.purchaseMe} />
+        <div className="left_block">
+          <Bankrupt
+            money={this.state.money}
+            emergencyCash={this.emergencyCash}
+          />
+          <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
+          <Goods
+            totalGlass={this.state.totalGlass}
+            totalAluminum={this.state.totalAluminum}
+            totalPlastic={this.state.totalPlastic}
+            removeGlass={this.removeGlass}
+            removeAluminum={this.removeAluminum}
+            removePlastic={this.removePlastic}
+            addMoney={this.addMoney}
+            productivity={this.state.productivity}
+          />
+          <Notification money={this.state.money} />
+        </div>
+        <div className="materials">
+          <Materials
+            addGlass={this.addGlass}
+            addAluminum={this.addAluminum}
+            addPlastic={this.addPlastic}
+          />
+        </div>
       </div>
     );
   }

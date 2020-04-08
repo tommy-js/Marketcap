@@ -2,6 +2,7 @@ import React, { Component, prevState } from "react";
 import BuildComputerChip from "./items/BuildComputerChip";
 import BuildComputerMouse from "./items/BuildComputerMouse";
 import BuildMobilePhone from "./items/BuildMobilePhone";
+import "../../main.scss";
 
 export default class Goods extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ export default class Goods extends Component {
 
   render() {
     return (
-      <div>
+      <div className="goods_block">
         <div>Manufacture goods</div>
         <BuildComputerChip
           totalGlass={this.props.totalGlass}

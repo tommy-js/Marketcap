@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../../main.scss";
 
 function Aluminum(props) {
   const [aluminum, setAluminum] = useState(0);

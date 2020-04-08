@@ -4,6 +4,7 @@ import Employee from "../../assets/Employee.js";
 function CompanyList(props) {
   return (
     <div>
+      Your Employees
       {props.assets.map(el => (
         <Employee
           id={el.id}

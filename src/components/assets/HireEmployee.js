@@ -17,9 +17,10 @@ function HireEmployee(props) {
 
   return (
     <div style={{ display: display }}>
-      <div>Name: {individual.name}</div>
+      <div>
+        Name: {individual.name}, {individual.profession}
+      </div>
       <div>Salary: ${individual.salary}</div>
-      <div>Profession: {individual.profession}</div>
       <button onClick={() => passToHireables(individual)}>Hire</button>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import "../../main.css";
 
 function Calendar(props) {
   let timePassed = Math.floor(props.days);
@@ -7,7 +8,7 @@ function Calendar(props) {
   let months = Math.floor((timePassed / 30) * 10) / 10;
   let years = Math.floor((timePassed / 365) * 10) / 10;
   return (
-    <div>
+    <div className="calendar">
       <div>You have been in business for {days} days</div>
       <div>This is {weeks} weeks</div>
       <div>Which is {months} months</div>

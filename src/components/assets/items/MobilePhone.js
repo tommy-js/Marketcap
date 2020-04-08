@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../../main.scss";
 
 function MobilePhone(props) {
   const [sellVal, setSellVal] = useState(0);
@@ -27,13 +28,13 @@ function MobilePhone(props) {
 
   return (
     <div>
-      <div>Build Smartphone</div>
+      <div>Build Smartphone ({props.phones})</div>
       <div>Current Price: ${Math.floor(props.phonePrice * 100) / 100}</div>
-      <div>You own {props.phones} phones</div>
       <div>Material cost:</div>
-      <div>Glass: 5(-{props.totalGlass})</div>
-      <div>Plastic: 2(-{props.totalPlastic})</div>
-      <div>Aluminum: 3(-{props.totalAluminum})</div>
+      <div>
+        Glass: 5({props.totalGlass}), Plastic: 2({props.totalPlastic}),
+        Aluminum: 3({props.totalAluminum})
+      </div>
       <button onClick={startMobilePhone}>Build</button>
       <button onClick={endMobilePhone}>Stop Building</button>
       <input
