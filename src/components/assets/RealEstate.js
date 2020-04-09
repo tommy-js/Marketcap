@@ -5,15 +5,13 @@ import buildings from "../main/subcomponents/realEstate";
 function RealEstate(props) {
   return (
     <div>
-      {buildings.map(el => (
-        <GetRealEstate
-          name={el.name}
-          space={el.space}
-          capacity={el.capacity}
-          price={el.price}
-          setBuildingSpots={props.setBuildingSpots}
-        />
-      ))}
+      <GetRealEstate
+        name={props.name}
+        space={props.space}
+        capacity={props.capacity}
+        price={props.price}
+        setBuildingSpots={props.setBuildingSpots}
+      />
     </div>
   );
 }

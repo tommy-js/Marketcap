@@ -8,7 +8,13 @@ function Building(props) {
       <div>
         You have filled {props.employeesHired}/{props.buildingSpots}
       </div>
-      <RealEstate setBuildingSpots={props.setBuildingSpots} />
+      <RealEstate
+        setBuildingSpots={props.setBuildingSpots}
+        name={props.name}
+        space={props.space}
+        capacity={props.capacity}
+        price={props.price}
+      />
     </div>
   );
 }

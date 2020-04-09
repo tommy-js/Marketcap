@@ -19,7 +19,6 @@ function GetRealEstate(props) {
       </p>
 
       <p className="info_container">
-        {" "}
         <img className="small_icon" src={cost} />
         {building.price.toLocaleString()}
       </p>

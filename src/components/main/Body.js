@@ -43,6 +43,12 @@ export default class Body extends Component {
       termComplete: false,
       loanDefer: false,
       notificationMessage: "",
+      building: {
+        name: "",
+        space: "",
+        capacity: "",
+        price: ""
+      },
       assets: [],
       ownedBuildings: []
     };
@@ -64,6 +70,7 @@ export default class Body extends Component {
     this.removeGlass = this.removeGlass.bind(this);
     this.removeAluminum = this.removeAluminum.bind(this);
     this.removePlastic = this.removePlastic.bind(this);
+    this.setBuilding = this.setBuilding.bind(this);
   }
 
   componentDidMount() {
@@ -75,7 +82,7 @@ export default class Body extends Component {
   updateMoney() {
     this.setState(prevState => ({
       money: prevState.money + this.state.income / 20,
-      days: prevState.days + 1 / 2
+      days: prevState.days + 1 / 20
     }));
   }
 
@@ -268,10 +275,21 @@ export default class Body extends Component {
     }));
   }
 
+  setBuilding(buildingInfo) {
+    this.setState({
+      building: {
+        name: buildingInfo.name,
+        price: buildingInfo.price,
+        capacity: buildingInfo.capacity,
+        space: buildingInfo.space
+      }
+    });
+  }
+
   render() {
     return (
       <div>
-        <MapSystem />
+        <MapSystem setBuilding={this.setBuilding} />
         <div className="right_block">
           <Calendar days={this.state.days} />
           <Assets
@@ -292,6 +310,10 @@ export default class Body extends Component {
           buildingSpots={this.state.buildingSpots}
           employeesHired={this.state.employeesHired}
           setBuildingSpots={this.setBuildingSpots}
+          name={this.state.building.name}
+          space={this.state.building.space}
+          capacity={this.state.building.capacity}
+          price={this.state.building.price}
         />
         <div className="business_assets">
           <Money money={this.state.money} />

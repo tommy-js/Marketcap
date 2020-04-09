@@ -85,15 +85,19 @@
   width: 500px;
   height: 500px;
   margin: auto;
-  left: 0;
-  right: 0;
   border: 1px solid blue;
 }
 
 .map_block {
   position: relative;
-  margin: 25px;
+  cursor: pointer;
+  margin: 10px;
   height: 40px;
   width: 40px;
+  display: inline-block;
   background-color: red;
+}
+
+.map_block:hover {
+  opacity: 1;
 }
