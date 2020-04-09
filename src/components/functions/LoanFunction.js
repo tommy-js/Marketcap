@@ -11,6 +11,7 @@ function LoanFunction(props) {
   const [creditCheck, setCreditCheck] = useState(props.credit);
   const [newDisplay, setDisplay] = useState("block");
   const [showDefer, setDefer] = useState(true);
+  const [letUpdate, setLetUpdate] = useState(true);
   const [showDeferButton, setDeferButton] = useState("block");
 
   function updateInput(e) {
@@ -18,12 +19,13 @@ function LoanFunction(props) {
   }
   function submitInput() {
     if (loanCounter <= creditCheck) {
-      props.loanTakeout(loanCounter);
+      props.lTakeout(loanCounter);
       setLoanMonthly(0.05 * loanCounter);
     } else {
-      props.loanTakeout(creditCheck);
+      props.lTakeout(creditCheck);
       setLoanMonthly(0.05 * creditCheck);
       setLoanCounter(creditCheck);
+      console.log(loanCounter);
     }
     setDisabledController(true);
   }
@@ -34,12 +36,15 @@ function LoanFunction(props) {
   }
 
   function submitPaybackAmount() {
-    if (loanCheck <= loanCounter) {
-      props.submitPaybackAmount(loanCheck);
-      setLoanMonthly(loanCheck);
-    } else {
-      props.submitPaybackAmount(loanCounter);
-      setLoanMonthly(loanCounter);
+    if (letUpdate) {
+      if (loanCheck <= loanCounter) {
+        props.submitPaybackAmount(loanCheck);
+        setLoanMonthly(loanCheck);
+      } else {
+        props.submitPaybackAmount(loanCounter);
+        setLoanMonthly(loanCounter);
+      }
+      setLetUpdate(false);
     }
     setCheckChanger(true);
   }

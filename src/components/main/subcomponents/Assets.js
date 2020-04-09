@@ -1,71 +1,100 @@
-import React, { prevState, useState } from "react";
+import React, { prevState, useState, useEffect, useRef } from "react";
 import PurchaseFunction from "../../functions/PurchaseFunction";
 import EmployeeList from "./EmployeeList";
-import LoanFunction from "../../functions/LoanFunction";
+import Loans from "../../assets/Loans.js";
 import Credit from "./Credit";
 import "../../../main.scss";
 
 function Assets(props) {
-  const [identifier, setIdentifier] = useState("");
-  const [loans, setLoans] = useState(props.loans);
-  const [currentLoans, setCurrentLoans] = useState([]);
-  const [loanCount, setLoanCount] = useState(0);
-  let mapper = [];
-  if (loans > 1000000) {
-    if (loans > 1000000000) {
-      setLoans(loans / 1000000000);
-      setIdentifier("M");
-    } else {
-      setLoans(loans / 1000000);
-      setIdentifier("B");
-    }
-  }
+  const [money, setMoney] = useState(0);
+  const [loans, setLoans] = useState(0);
+  const loanRef = useRef(loans);
+  loanRef.current = loans;
 
-  function dropLoan() {
-    setLoanCount(prev => prev - 1);
-  }
+  const [loanPayment, setLoanPayment] = useState(0);
+  const [credit, setCredit] = useState(props.credit);
+  const [loanDefer, setLoanDefer] = useState(false);
+  const [dateOfDeferment, setDateOfDeferment] = useState(null);
 
-  function takeoutLoan() {
-    if (loanCount < 3) {
-      const keylog = {
-        id: currentLoans.length
+  useEffect(() => {
+    setInterval(() => loanPay(loanRef.current), 10000);
+  }, []);
+
+  function loanPay(e) {
+    console.log(e);
+    if (loanDefer == false) {
+      setMoney(props.money - loanPayment);
+
+      let bulletin = {
+        thisMoney: props.money - loanPayment,
+        thisLoans: e - loanPayment,
+        thisLoanPayment: e * 0.05
       };
 
-      setCurrentLoans([
-        ...currentLoans,
-        {
-          id: currentLoans.length
-        }
-      ]);
-      setLoanCount(prev => prev + 1);
+      console.log("bulletin loan payment:" + bulletin.thisLoanPayment);
+      props.loanPay(bulletin);
     }
+  }
+
+  function deferLoanPayment() {
+    setLoanDefer(true);
+    setDateOfDeferment(props.days);
+    setCredit(credit - 1000);
+    setTimeout(() => {
+      setLoanDefer(false);
+    }, 180000);
+    props.deferLoanPayment(credit);
+  }
+
+  function lTakeout(e) {
+    const addedLoans = Number(e);
+    const totalLoans = addedLoans * 0.05;
+    let var1 = loans;
+    let var2 = money;
+    let var3 = loanPayment;
+
+    setMoney(var2 + var1);
+    setLoans(loans => loans + e);
+    setLoanPayment(var3 + totalLoans);
+
+    let bulletin = {
+      thisMoney: var2 + var1,
+      thisLoans: var1 + addedLoans,
+      thisLoanPayment: var3 + totalLoans
+    };
+
+    props.loanTakeout(bulletin);
+  }
+
+  function submitPaybackAmount(loanPaybackAmount) {
+    setLoanPayment(loanPaybackAmount);
   }
 
   return (
     <div>
       <div className="loans">
         <Credit credit={props.credit} />
-        {currentLoans.map(el => (
-          <LoanFunction
-            key={el.id}
-            loanTakeout={props.loanTakeout}
-            submitPaybackAmount={props.submitPaybackAmount}
-            credit={props.credit}
-            totalLoans={props.loans}
-            termComplete={props.termComplete}
-            updateCredit={props.updateCredit}
-            deferLoanPayment={props.deferLoanPayment}
-            dropLoan={dropLoan}
+        <div>
+          Note that you can defer payment for 3 months so long as your credit is
+          above 10,000. Your credit is currently {props.credit}. Reduces credit
+          by 1,000 points.
+        </div>
+
+        <Loans
+          lTakeout={lTakeout}
+          submitPaybackAmount={submitPaybackAmount}
+          credit={credit}
+          termComplete={props.termComplete}
+          updateCredit={props.updateCredit}
+          deferLoanPayment={deferLoanPayment}
+          loans={loans}
+        />
+        <div className="employee_list">
+          <EmployeeList
+            assets={props.assets}
+            fireEmployee={props.fireEmployee}
           />
-        ))}
-        <p>
-          <button onClick={() => takeoutLoan()}>Take out new loan</button>
-          Your loans are: ${props.loans.toLocaleString()}
-          {identifier}
-        </p>
-      </div>
-      <div className="employee_list">
-        <EmployeeList assets={props.assets} fireEmployee={props.fireEmployee} />
+        </div>
       </div>
     </div>
   );

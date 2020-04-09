@@ -22,13 +22,11 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: 100000000,
+      money: 20000,
       expenses: 0,
       salary: 0,
       income: 0,
       productivity: 1,
-      loans: 0,
-      loanPayment: 0,
       monthlyPaybackValue: 0,
       credit: 5000,
       days: 0,
@@ -40,8 +38,6 @@ export default class Body extends Component {
       totalGlass: 0,
       totalAluminum: 0,
       totalPlastic: 0,
-      termComplete: false,
-      loanDefer: false,
       notificationMessage: "",
       building: {
         name: "",
@@ -58,10 +54,8 @@ export default class Body extends Component {
     this.salaryPayment = this.salaryPayment.bind(this);
     this.loanTakeout = this.loanTakeout.bind(this);
     this.loanPay = this.loanPay.bind(this);
-    this.submitPaybackAmount = this.submitPaybackAmount.bind(this);
     this.updateCredit = this.updateCredit.bind(this);
     this.fireEmployee = this.fireEmployee.bind(this);
-    this.deferLoanPayment = this.deferLoanPayment.bind(this);
     this.emergencyCash = this.emergencyCash.bind(this);
     this.addMoney = this.addMoney.bind(this);
     this.setBuildingSpots = this.setBuildingSpots.bind(this);
@@ -77,7 +71,6 @@ export default class Body extends Component {
   componentDidMount() {
     setInterval(this.updateMoney, 100);
     setInterval(this.salaryPayment, 14000);
-    setInterval(this.loanPay, 10000);
   }
 
   updateMoney() {
@@ -91,32 +84,6 @@ export default class Body extends Component {
     this.setState(prevState => ({
       money: prevState.money - this.state.salary
     }));
-  }
-
-  loanPay() {
-    if (this.state.loanDefer == false) {
-      let testingVal = this.state.loans - this.state.monthlyPaybackValue;
-      if (testingVal >= 0) {
-        this.setState(prevState => ({
-          money:
-            prevState.money -
-            this.state.loanPayment -
-            this.state.monthlyPaybackValue,
-          loans: prevState.loans - this.state.monthlyPaybackValue,
-          loanPayment: (prevState.loans - this.state.monthlyPaybackValue) * 0.05
-        }));
-      }
-    }
-  }
-
-  deferLoanPayment() {
-    this.setState({ loanDefer: true, dateOfDeferment: this.state.days });
-    this.setState(prevState => ({
-      credit: prevState.credit - 1000
-    }));
-    setTimeout(() => {
-      this.setState({ loanDefer: false });
-    }, 180000);
   }
 
   purchaseMe(individual) {
@@ -154,21 +121,16 @@ export default class Body extends Component {
   }
 
   loanTakeout(e) {
-    const loans = Number(e);
-    const totalLoans = e * 0.05;
     this.setState(prevState => ({
-      money: prevState.money + loans
+      money: prevState.money + e.thisLoans,
+      monthlyPaybackValue: e.thisLoanPayment
     }));
-    this.setState(prevState => ({ loans: prevState.loans + loans }));
-    this.setState(prevState => ({
-      loanPayment: prevState.loanPayment + totalLoans
-    }));
-    // console.log(this.state.loanPayment);
   }
 
-  submitPaybackAmount(loanPaybackAmount) {
-    const monthlyValue = loanPaybackAmount;
-    this.setState({ monthlyPaybackValue: monthlyValue });
+  loanPay(e) {
+    this.setState(prevState => ({
+      money: prevState.money - e.thisLoanPayment
+    }));
   }
 
   updateCredit(creditPayoff) {
@@ -310,6 +272,10 @@ export default class Body extends Component {
             fireEmployee={this.fireEmployee}
             deferLoanPayment={this.deferLoanPayment}
             credit={this.state.credit}
+            money={this.state.money}
+            loanPay={this.loanPay}
+            days={this.state.days}
+            loanPayment={this.state.loanPayment}
           />
         </div>
         <Building
@@ -328,6 +294,7 @@ export default class Body extends Component {
             income={this.state.income}
             loanPayment={this.state.loanPayment}
             salary={this.state.salary}
+            monthlyPaybackValue={this.state.monthlyPaybackValue}
           />
         </div>
         <Hireables employees={employees} purchaseMe={this.purchaseMe} />
