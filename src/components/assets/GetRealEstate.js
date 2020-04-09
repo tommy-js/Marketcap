@@ -6,10 +6,16 @@ import cost from "../images/icons/money.png";
 function GetRealEstate(props) {
   const building = {
     name: props.name,
-    space: props.space,
+    price: props.price,
     capacity: props.capacity,
-    price: props.price
+    space: props.space,
+    id: props.id
   };
+
+  function setBuildingSpots() {
+    props.setBuildingSpots(building);
+  }
+
   return (
     <div>
       <p>{building.name}</p>

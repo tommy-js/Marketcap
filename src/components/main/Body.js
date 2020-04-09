@@ -22,7 +22,7 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      money: Math.random() * 5000,
+      money: 100000000,
       expenses: 0,
       salary: 0,
       income: 0,
@@ -47,7 +47,8 @@ export default class Body extends Component {
         name: "",
         space: "",
         capacity: "",
-        price: ""
+        price: "",
+        id: ""
       },
       assets: [],
       ownedBuildings: []
@@ -281,7 +282,8 @@ export default class Body extends Component {
         name: buildingInfo.name,
         price: buildingInfo.price,
         capacity: buildingInfo.capacity,
-        space: buildingInfo.space
+        space: buildingInfo.space,
+        id: buildingInfo.id
       }
     });
   }
@@ -289,7 +291,11 @@ export default class Body extends Component {
   render() {
     return (
       <div>
-        <MapSystem setBuilding={this.setBuilding} />
+        <MapSystem
+          setBuilding={this.setBuilding}
+          building={this.state.building}
+          ownedBuildings={this.state.ownedBuildings}
+        />
         <div className="right_block">
           <Calendar days={this.state.days} />
           <Assets
@@ -314,6 +320,7 @@ export default class Body extends Component {
           space={this.state.building.space}
           capacity={this.state.building.capacity}
           price={this.state.building.price}
+          id={this.state.building.id}
         />
         <div className="business_assets">
           <Money money={this.state.money} />

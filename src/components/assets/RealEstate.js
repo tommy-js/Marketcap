@@ -11,6 +11,7 @@ function RealEstate(props) {
         capacity={props.capacity}
         price={props.price}
         setBuildingSpots={props.setBuildingSpots}
+        id={props.id}
       />
     </div>
   );

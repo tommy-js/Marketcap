@@ -14,6 +14,7 @@ function Building(props) {
         space={props.space}
         capacity={props.capacity}
         price={props.price}
+        id={props.id}
       />
     </div>
   );
