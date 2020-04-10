@@ -28,6 +28,7 @@ export default class Body extends Component {
       days: 0,
       buildingSpots: 5,
       employeesHired: 0,
+      totalEarnings: 0,
       notificationMessage: "",
       building: {
         name: "",
@@ -151,7 +152,8 @@ export default class Body extends Component {
 
   addMoney(addAmount) {
     this.setState(prevState => ({
-      money: prevState.money + addAmount
+      money: prevState.money + addAmount,
+      totalEarnings: prevState.totalEarnings + addAmount
     }));
   }
 
@@ -232,6 +234,8 @@ export default class Body extends Component {
             loanPayment={this.state.loanPayment}
             salary={this.state.salary}
             monthlyPaybackValue={this.state.monthlyPaybackValue}
+            days={this.state.days}
+            totalEarnings={this.state.totalEarnings}
           />
         </div>
         <Hireables employees={employees} purchaseMe={this.purchaseMe} />
