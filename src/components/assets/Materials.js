@@ -16,6 +16,9 @@ export default class Materials extends Component {
       totalAluminum: 0,
       totalPlastic: 0
     };
+    this.removePlastic = this.removePlastic.bind(this);
+    this.removeAluminum = this.removeAluminum.bind(this);
+    this.removeGlass = this.removeGlass.bind(this);
   }
 
   addPlastic(passedMat) {
@@ -86,9 +89,9 @@ export default class Materials extends Component {
           totalGlass={this.state.totalGlass}
           totalAluminum={this.state.totalAluminum}
           totalPlastic={this.state.totalPlastic}
-          removeGlass={mat => this.removeGlass(mat)}
-          removeAluminum={mat => this.removeAluminum(mat)}
-          removePlastic={mat => this.removePlastic(mat)}
+          removeGlass={this.removePlastic}
+          removeAluminum={this.removeGlass}
+          removePlastic={this.removeAluminum}
           addMoney={this.props.addMoney}
           productivity={this.props.productivity}
         />

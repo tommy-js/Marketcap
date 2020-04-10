@@ -1,89 +1,93 @@
-import React, { Component, prevState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ComputerChip from "./ComputerChip";
 
-export default class BuildComputerChip extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chips: 0
-    };
-    this.CPUChips = this.CPUChips.bind(this);
-    this.setCPUChips = this.setCPUChips.bind(this);
-    this.sellCPUChip = this.sellCPUChip.bind(this);
-    this.autoSell = this.autoSell.bind(this);
-    this.sellAll = this.sellAll.bind(this);
-  }
+function BuildComputerChip(props) {
+  const [chips, setChips] = useState(0);
+  const [productivity, setProductivity] = useState(6000 / props.productivity);
+  const prod = useRef(productivity);
+  prod.current = productivity;
+  const [newvar, setNewvar] = useState(null);
+  const [checkState, setCheckState] = useState(false);
 
-  setCPUChips(checkCPU) {
+  const firstUpdate = useRef(true);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      console.log("logged first");
+      return;
+    } else {
+      clearInterval(newvar);
+      console.log("logged second");
+      setCPUChips(true, prod.current);
+    }
+  }, [props.productivity]);
+
+  function setCPUChips(checkCPU, refs) {
     if (checkCPU == true) {
-      let newvar = setInterval(this.CPUChips, 6000 / this.props.productivity);
-      this.setState({ newvar: newvar });
+      let newvar = setInterval(CPUChips, refs);
+      setNewvar(newvar);
+      setCheckState(true);
     }
     if (checkCPU == false) {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
       console.log("not passing");
     }
   }
 
-  CPUChips() {
+  function CPUChips() {
+    console.log(newvar);
     if (
-      this.props.totalGlass >= 1 &&
-      this.props.totalAluminum >= 5 &&
-      this.props.totalPlastic >= 2
+      props.totalGlass >= 1 &&
+      props.totalAluminum >= 5 &&
+      props.totalPlastic >= 2
     ) {
-      this.props.removeGlass(1);
-      this.props.removePlastic(2);
-      this.props.removeAluminum(5);
-      this.setState(prevState => ({
-        chips: prevState.chips + 1
-      }));
+      props.removeGlass(1);
+      props.removePlastic(2);
+      props.removeAluminum(5);
+      setChips(prev => prev + 1);
       console.log("working");
     } else {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
     }
   }
 
-  sellCPUChip(sellAmount) {
-    if (this.state.chips >= sellAmount) {
-      this.setState(prevState => ({
-        chips: prevState.chips - sellAmount
-      }));
-      this.props.chipsPayment(sellAmount);
+  function sellCPUChip(sellAmount) {
+    if (chips >= sellAmount) {
+      setChips(prev => prev - sellAmount);
+      props.chipsPayment(sellAmount);
     }
   }
 
-  autoSell() {
-    if (this.state.chips > 0) {
-      let chipVal = this.state.chips;
-      this.setState({
-        chips: 0
-      });
-      this.props.chipsPayment(chipVal);
+  function autoSell() {
+    if (chips > 0) {
+      let chipVal = chips;
+      setChips(0);
+      props.chipsPayment(chipVal);
     }
   }
 
-  sellAll() {
-    let chipVal = this.state.chips;
-    this.setState({ chips: 0 });
-    this.props.chipsPayment(chipVal);
+  function sellAll() {
+    let chipVal = chips;
+    setChips(0);
+    props.chipsPayment(chipVal);
   }
 
-  render() {
-    return (
-      <div>
-        <ComputerChip
-          totalGlass={this.props.totalGlass}
-          totalAluminum={this.props.totalAluminum}
-          totalPlastic={this.props.totalPlastic}
-          chipPrice={this.props.chipPrice}
-          chips={this.state.chips}
-          setCPUChips={this.setCPUChips}
-          stopCPUChips={this.stopCPUChips}
-          sellCPUChip={this.sellCPUChip}
-          autoSell={this.autoSell}
-          sellAll={this.sellAll}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <ComputerChip
+        totalGlass={props.totalGlass}
+        totalAluminum={props.totalAluminum}
+        totalPlastic={props.totalPlastic}
+        chipPrice={props.chipPrice}
+        chips={chips}
+        setCPUChips={setCPUChips}
+        sellCPUChip={sellCPUChip}
+        autoSell={autoSell}
+        sellAll={sellAll}
+      />
+    </div>
+  );
 }
+
+export default BuildComputerChip;

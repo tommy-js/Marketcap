@@ -1,91 +1,77 @@
-import React, { Component, prevState } from "react";
+import React, { useState, useEffect } from "react";
 import ComputerMouse from "./ComputerMouse";
 
-export default class BuildComputerMouse extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mice: 0
-    };
-    this.ComputerMouse = this.ComputerMouse.bind(this);
-    this.setComputerMouse = this.setComputerMouse.bind(this);
-    this.sellComputerMouse = this.sellComputerMouse.bind(this);
-    this.autoSell = this.autoSell.bind(this);
-    this.sellAll = this.sellAll.bind(this);
-  }
+function BuildComputerMouse(props) {
+  const [mice, setMice] = useState(0);
+  const [productivity, setProductivity] = useState(1500 / props.productivity);
+  const [newvar, setNewvar] = useState(null);
+  const [checkState, setCheckState] = useState(false);
 
-  setComputerMouse(checkMouse) {
+  useEffect(() => {
+    setComputerMouse(true);
+  }, [props.productivity]);
+
+  function setComputerMouse(checkMouse) {
     if (checkMouse == true) {
-      let newvar = setInterval(
-        this.ComputerMouse,
-        1500 / this.props.productivity
-      );
-      this.setState({ newvar: newvar });
+      let newvar = setInterval(ComputerMice, productivity);
+      setNewvar(newvar);
     }
     if (checkMouse == false) {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
       console.log("not passing");
     }
   }
 
-  ComputerMouse() {
+  function ComputerMice() {
     if (
-      this.props.totalGlass >= 1 &&
-      this.props.totalAluminum >= 2 &&
-      this.props.totalPlastic >= 4
+      props.totalGlass >= 1 &&
+      props.totalAluminum >= 2 &&
+      props.totalPlastic >= 4
     ) {
-      this.props.removeGlass(1);
-      this.props.removePlastic(4);
-      this.props.removeAluminum(2);
-      this.setState(prevState => ({
-        mice: prevState.mice + 1
-      }));
+      props.removeGlass(1);
+      props.removePlastic(4);
+      props.removeAluminum(2);
+      setMice(prev => prev + 1);
       console.log("working");
     } else {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
     }
   }
 
-  sellComputerMouse(sellAmount) {
-    if (this.state.mice >= sellAmount) {
-      this.setState(prevState => ({
-        mice: prevState.mice - sellAmount
-      }));
-      this.props.micePayment(sellAmount);
+  function sellComputerMouse(sellAmount) {
+    if (mice >= sellAmount) {
+      setMice(prev => prev - sellAmount);
+      props.micePayment(sellAmount);
     }
   }
 
-  autoSell() {
-    if (this.state.mice > 0) {
-      let miceVal = this.state.mice;
-      this.setState({
-        mice: 0
-      });
-      this.props.micePayment(miceVal);
+  function autoSell() {
+    if (mice > 0) {
+      props.micePayment(mice);
+      setMice(0);
     }
   }
 
-  sellAll() {
-    let miceVal = this.state.mice;
-    this.setState({ mice: 0 });
-    this.props.micePayment(miceVal);
+  function sellAll() {
+    props.micePayment(mice);
+    setMice(0);
   }
 
-  render() {
-    return (
-      <div>
-        <ComputerMouse
-          totalGlass={this.props.totalGlass}
-          totalPlastic={this.props.totalPlastic}
-          totalAluminum={this.props.totalAluminum}
-          mousePrice={this.props.mousePrice}
-          mice={this.state.mice}
-          setComputerMouse={this.setComputerMouse}
-          sellComputerMouse={this.sellComputerMouse}
-          autoSell={this.autoSell}
-          sellAll={this.sellAll}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <ComputerMouse
+        totalGlass={props.totalGlass}
+        totalPlastic={props.totalPlastic}
+        totalAluminum={props.totalAluminum}
+        mousePrice={props.mousePrice}
+        mice={mice}
+        setComputerMouse={setComputerMouse}
+        sellComputerMouse={sellComputerMouse}
+        autoSell={autoSell}
+        sellAll={sellAll}
+      />
+    </div>
+  );
 }
+
+export default BuildComputerMouse;

@@ -1,91 +1,78 @@
-import React, { Component, prevState } from "react";
+import React, { useState, useEffect } from "react";
 import MobilePhone from "./MobilePhone";
 
-export default class BuildMobilePhone extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      phones: 0
-    };
-    this.MobilePhone = this.MobilePhone.bind(this);
-    this.setMobilePhone = this.setMobilePhone.bind(this);
-    this.sellMobilePhone = this.sellMobilePhone.bind(this);
-    this.autoSell = this.autoSell.bind(this);
-    this.sellAll = this.sellAll.bind(this);
-  }
+function BuildMobilePhone(props) {
+  const [phones, setPhones] = useState(0);
+  const [productivity, setProductivity] = useState(3000 / props.productivity);
+  const [newvar, setNewvar] = useState(null);
+  const [checkState, setCheckState] = useState(false);
 
-  setMobilePhone(checkPhones) {
+  useEffect(() => {
+    setMobilePhone(true);
+  }, [props.productivity]);
+
+  function setMobilePhone(checkPhones) {
     if (checkPhones == true) {
-      let newvar = setInterval(
-        this.MobilePhone,
-        3000 / this.props.productivity
-      );
-      this.setState({ newvar: newvar });
+      let newvar = setInterval(MobilePhones, productivity);
+      setNewvar(newvar);
     }
     if (checkPhones == false) {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
       console.log("not passing");
     }
   }
 
-  MobilePhone() {
+  function MobilePhones() {
     if (
-      this.props.totalGlass >= 5 &&
-      this.props.totalAluminum >= 3 &&
-      this.props.totalPlastic >= 2
+      props.totalGlass >= 5 &&
+      props.totalAluminum >= 3 &&
+      props.totalPlastic >= 2
     ) {
-      this.props.removeGlass(5);
-      this.props.removePlastic(2);
-      this.props.removeAluminum(3);
-      this.setState(prevState => ({
-        phones: prevState.phones + 1
-      }));
+      props.removeGlass(5);
+      props.removePlastic(2);
+      props.removeAluminum(3);
+      setPhones(prev => prev + 1);
       console.log("working");
     } else {
-      clearInterval(this.state.newvar);
+      clearInterval(newvar);
     }
   }
 
-  sellMobilePhone(sellAmount) {
-    if (this.state.phones >= sellAmount) {
-      this.setState(prevState => ({
-        phones: prevState.phones - sellAmount
-      }));
-      this.props.phonesPayment(sellAmount);
+  function sellMobilePhone(sellAmount) {
+    if (phones >= sellAmount) {
+      setPhones(prev => prev - sellAmount);
+      props.phonesPayment(sellAmount);
     }
   }
 
-  autoSell() {
-    if (this.state.phones > 0) {
-      let phoneVal = this.state.phones;
-      this.setState({
-        phones: 0
-      });
-      this.props.phonesPayment(phoneVal);
+  function autoSell() {
+    if (phones > 0) {
+      let phoneVal = phones;
+      setPhones(0);
+      props.phonesPayment(phoneVal);
     }
   }
 
-  sellAll() {
-    let phoneVal = this.state.phones;
-    this.setState({ phones: 0 });
-    this.props.phonesPayment(phoneVal);
+  function sellAll() {
+    this.props.phonesPayment(phones);
+    setPhones(0);
   }
 
-  render() {
-    return (
-      <div>
-        <MobilePhone
-          totalGlass={this.props.totalGlass}
-          totalAluminum={this.props.totalAluminum}
-          totalPlastic={this.props.totalPlastic}
-          phonePrice={this.props.phonePrice}
-          phones={this.state.phones}
-          setMobilePhone={this.setMobilePhone}
-          sellMobilePhone={this.sellMobilePhone}
-          autoSell={this.autoSell}
-          sellAll={this.sellAll}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <MobilePhone
+        totalGlass={props.totalGlass}
+        totalAluminum={props.totalAluminum}
+        totalPlastic={props.totalPlastic}
+        phonePrice={props.phonePrice}
+        phones={phones}
+        setMobilePhone={setMobilePhone}
+        sellMobilePhone={sellMobilePhone}
+        autoSell={autoSell}
+        sellAll={sellAll}
+      />
+    </div>
+  );
 }
+
+export default BuildMobilePhone;
