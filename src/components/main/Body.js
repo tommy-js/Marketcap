@@ -1,15 +1,11 @@
 import React, { Component, prevState } from "react";
 import "../../main.css";
 import Assets from "./subcomponents/Assets";
-import Income from "./subcomponents/Income";
-import Expenses from "./subcomponents/Expenses";
 import Money from "./subcomponents/Money";
-import Credit from "./subcomponents/Credit";
 import Hireables from "./subcomponents/Hireables";
 import Calendar from "../calculations/Calendar";
 import Building from "../assets/Building";
 import Bankrupt from "./subcomponents/Bankrupt";
-import Goods from "../assets/Goods";
 import OwnedEstate from "../assets/OwnedEstate";
 import Notification from "../functions/Notifications/Notification";
 import Materials from "../assets/Materials";
@@ -32,12 +28,6 @@ export default class Body extends Component {
       days: 0,
       buildingSpots: 5,
       employeesHired: 0,
-      glassPrice: 4,
-      aluminumPrice: 7,
-      plasticPrice: 2.5,
-      totalGlass: 0,
-      totalAluminum: 0,
-      totalPlastic: 0,
       notificationMessage: "",
       building: {
         name: "",
@@ -59,12 +49,6 @@ export default class Body extends Component {
     this.emergencyCash = this.emergencyCash.bind(this);
     this.addMoney = this.addMoney.bind(this);
     this.setBuildingSpots = this.setBuildingSpots.bind(this);
-    this.addPlastic = this.addPlastic.bind(this);
-    this.addAluminum = this.addAluminum.bind(this);
-    this.addGlass = this.addGlass.bind(this);
-    this.removeGlass = this.removeGlass.bind(this);
-    this.removeAluminum = this.removeAluminum.bind(this);
-    this.removePlastic = this.removePlastic.bind(this);
     this.setBuilding = this.setBuilding.bind(this);
   }
 
@@ -129,7 +113,8 @@ export default class Body extends Component {
 
   loanPay(e) {
     this.setState(prevState => ({
-      money: prevState.money - e.thisLoanPayment
+      money: prevState.money - e.thisLoanPayment,
+      monthlyPaybackValue: prevState.monthlyPaybackValue - e.thisLoanPayment
     }));
   }
 
@@ -184,60 +169,6 @@ export default class Body extends Component {
     }
   }
 
-  addPlastic(passedMat) {
-    let material = Number(passedMat);
-    let purchaseTotal = material * this.state.plasticPrice;
-    if (this.state.money > purchaseTotal) {
-      this.setState(prevState => ({
-        money: prevState.money - purchaseTotal,
-        totalPlastic: prevState.totalPlastic + material
-      }));
-    }
-  }
-
-  addAluminum(passedMat) {
-    let material = Number(passedMat);
-    let purchaseTotal = material * this.state.aluminumPrice;
-    if (this.state.money > purchaseTotal) {
-      this.setState(prevState => ({
-        money: prevState.money - purchaseTotal,
-        totalAluminum: prevState.totalAluminum + material
-      }));
-    }
-  }
-
-  addGlass(passedMat) {
-    let material = Number(passedMat);
-    let purchaseTotal = material * this.state.glassPrice;
-    if (this.state.money > purchaseTotal) {
-      this.setState(prevState => ({
-        money: prevState.money - purchaseTotal,
-        totalGlass: prevState.totalGlass + material
-      }));
-    }
-  }
-
-  removePlastic(passedMat) {
-    let material = Number(passedMat);
-    this.setState(prevState => ({
-      totalPlastic: prevState.totalPlastic - material
-    }));
-  }
-
-  removeAluminum(passedMat) {
-    let material = Number(passedMat);
-    this.setState(prevState => ({
-      totalAluminum: prevState.totalAluminum - material
-    }));
-  }
-
-  removeGlass(passedMat) {
-    let material = Number(passedMat);
-    this.setState(prevState => ({
-      totalGlass: prevState.totalGlass - material
-    }));
-  }
-
   setBuilding(buildingInfo) {
     this.setState({
       building: {
@@ -248,6 +179,12 @@ export default class Body extends Component {
         id: buildingInfo.id
       }
     });
+  }
+
+  loseMoney(purchaseTotal) {
+    this.setState(prevState => ({
+      money: prevState.money - purchaseTotal
+    }));
   }
 
   render() {
@@ -289,8 +226,8 @@ export default class Body extends Component {
           id={this.state.building.id}
         />
         <div className="business_assets">
-          <Money money={this.state.money} />
-          <Income
+          <Money
+            money={this.state.money}
             income={this.state.income}
             loanPayment={this.state.loanPayment}
             salary={this.state.salary}
@@ -304,16 +241,6 @@ export default class Body extends Component {
             emergencyCash={this.emergencyCash}
           />
           <OwnedEstate ownedBuildings={this.state.ownedBuildings} />
-          <Goods
-            totalGlass={this.state.totalGlass}
-            totalAluminum={this.state.totalAluminum}
-            totalPlastic={this.state.totalPlastic}
-            removeGlass={this.removeGlass}
-            removeAluminum={this.removeAluminum}
-            removePlastic={this.removePlastic}
-            addMoney={this.addMoney}
-            productivity={this.state.productivity}
-          />
           <Notification
             money={this.state.money}
             notificationMessage={this.state.notificationMessage}
@@ -321,9 +248,10 @@ export default class Body extends Component {
         </div>
         <div className="materials">
           <Materials
-            addGlass={this.addGlass}
-            addAluminum={this.addAluminum}
-            addPlastic={this.addPlastic}
+            addMoney={this.addMoney}
+            loseMoney={ptotal => this.loseMoney(ptotal)}
+            money={this.state.money}
+            productivity={this.state.productivity}
           />
         </div>
       </div>

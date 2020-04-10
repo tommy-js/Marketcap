@@ -18,7 +18,7 @@ export default class BuildComputerMouse extends Component {
     if (checkMouse == true) {
       let newvar = setInterval(
         this.ComputerMouse,
-        2000 / this.props.productivity
+        1500 / this.props.productivity
       );
       this.setState({ newvar: newvar });
     }
@@ -32,10 +32,10 @@ export default class BuildComputerMouse extends Component {
     if (
       this.props.totalGlass >= 1 &&
       this.props.totalAluminum >= 2 &&
-      this.props.totalPlastic >= 5
+      this.props.totalPlastic >= 4
     ) {
       this.props.removeGlass(1);
-      this.props.removePlastic(5);
+      this.props.removePlastic(4);
       this.props.removeAluminum(2);
       this.setState(prevState => ({
         mice: prevState.mice + 1

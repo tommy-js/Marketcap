@@ -15,7 +15,7 @@
 }
 
 body {
-  // overflow: hidden;
+  overflow: hidden;
 }
 
 .employee_list {
@@ -42,6 +42,7 @@ body {
 
 .goods_block {
   @include standard_body;
+  display: inline-block;
 }
 
 .materials {
@@ -50,6 +51,7 @@ body {
 
 .materials_block {
   @include standard_body;
+  display: inline-block;
   vertical-align: top;
 }
 

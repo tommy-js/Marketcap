@@ -22,7 +22,7 @@ function Loans(props) {
   }
 
   function takeoutLoan() {
-    if (loanCount < 3) {
+    if (loanCount < 1) {
       const keylog = {
         id: currentLoans.length
       };

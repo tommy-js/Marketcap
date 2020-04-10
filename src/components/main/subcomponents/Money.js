@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Income from "./Income";
 import "../../../main.css";
 
 function Money(props) {
@@ -24,6 +25,12 @@ function Money(props) {
       <div>
         Your total money: ${mon}
         {identifier}
+        <Income
+          income={props.income}
+          loanPayment={props.loanPayment}
+          salary={props.salary}
+          monthlyPaybackValue={props.monthlyPaybackValue}
+        />
       </div>
     );
   } else {

@@ -8,31 +8,38 @@ import "../../../main.scss";
 function Assets(props) {
   const [money, setMoney] = useState(0);
   const [loans, setLoans] = useState(0);
+  const [loanPayment, setLoanPayment] = useState(0);
   const loanRef = useRef(loans);
   loanRef.current = loans;
-
-  const [loanPayment, setLoanPayment] = useState(0);
+  const loanPaymentRef = useRef(loanPayment);
+  loanPaymentRef.current = loanPayment;
   const [credit, setCredit] = useState(props.credit);
   const [loanDefer, setLoanDefer] = useState(false);
   const [dateOfDeferment, setDateOfDeferment] = useState(null);
 
   useEffect(() => {
-    setInterval(() => loanPay(loanRef.current), 10000);
+    setInterval(() => loanPay(loanRef.current, loanPaymentRef.current), 10000);
   }, []);
 
-  function loanPay(e) {
+  function loanPay(e, r) {
     console.log(e);
     if (loanDefer == false) {
-      setMoney(props.money - loanPayment);
+      setMoney(props.money - r);
 
       let bulletin = {
-        thisMoney: props.money - loanPayment,
-        thisLoans: e - loanPayment,
-        thisLoanPayment: e * 0.05
+        thisMoney: props.money - r,
+        thisLoans: e - r,
+        thisLoanPayment: r
       };
 
       console.log("bulletin loan payment:" + bulletin.thisLoanPayment);
       props.loanPay(bulletin);
+      if (e - r >= 0) {
+        setLoans(e - r);
+      } else {
+        setLoanPayment(0);
+        setLoans(0);
+      }
     }
   }
 
@@ -54,7 +61,7 @@ function Assets(props) {
     let var3 = loanPayment;
 
     setMoney(var2 + var1);
-    setLoans(loans => loans + e);
+    setLoans(loans => loans + addedLoans);
     setLoanPayment(var3 + totalLoans);
 
     let bulletin = {
@@ -83,7 +90,7 @@ function Assets(props) {
         <Loans
           lTakeout={lTakeout}
           submitPaybackAmount={submitPaybackAmount}
-          credit={credit}
+          credit={props.credit}
           termComplete={props.termComplete}
           updateCredit={props.updateCredit}
           deferLoanPayment={deferLoanPayment}

@@ -18,7 +18,7 @@ export default class BuildMobilePhone extends Component {
     if (checkPhones == true) {
       let newvar = setInterval(
         this.MobilePhone,
-        5000 / this.props.productivity
+        3000 / this.props.productivity
       );
       this.setState({ newvar: newvar });
     }

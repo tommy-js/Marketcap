@@ -16,7 +16,7 @@ export default class BuildComputerChip extends Component {
 
   setCPUChips(checkCPU) {
     if (checkCPU == true) {
-      let newvar = setInterval(this.CPUChips, 8000 / this.props.productivity);
+      let newvar = setInterval(this.CPUChips, 6000 / this.props.productivity);
       this.setState({ newvar: newvar });
     }
     if (checkCPU == false) {
@@ -28,12 +28,12 @@ export default class BuildComputerChip extends Component {
   CPUChips() {
     if (
       this.props.totalGlass >= 1 &&
-      this.props.totalAluminum >= 6 &&
-      this.props.totalPlastic >= 3
+      this.props.totalAluminum >= 5 &&
+      this.props.totalPlastic >= 2
     ) {
       this.props.removeGlass(1);
-      this.props.removePlastic(3);
-      this.props.removeAluminum(6);
+      this.props.removePlastic(2);
+      this.props.removeAluminum(5);
       this.setState(prevState => ({
         chips: prevState.chips + 1
       }));
